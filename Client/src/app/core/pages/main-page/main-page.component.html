@@ -1,8 +1,13 @@
-<mat-toolbar color="primary">
-  <mat-toolbar-row class="menu">
-    <span>Nod_Dev</span>
-    <button mat-icon-button class="material-symbols-outlined">
-      <mat-icon>dark_mode</mat-icon>
-    </button>
-  </mat-toolbar-row>
-</mat-toolbar>
+<div [ngClass]="(theme$ | async) === 'dark'? 'dark-theme' : 'light-theme'" class="main-container">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row class="menu">
+      <span>Nod_Dev</span>
+      <button mat-icon-button class="material-symbols-outlined" (click)="onThemeChangeClick() ">
+        <mat-icon>{{(theme$ | async) === 'dark' ? 'dark_mode' : 'light_mode'}}</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-card></mat-card>
+  <h1>Hello</h1>
+</div>
+
