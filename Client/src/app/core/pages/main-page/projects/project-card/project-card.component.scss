@@ -1,0 +1,12 @@
+mat-card {
+  width: min-content;
+  margin: 16px;
+  cursor: pointer;
+  .card-image {
+    width: 350px;
+    height: 180px;
+  }
+  .card-content {
+    text-align: justify;
+  }
+}
