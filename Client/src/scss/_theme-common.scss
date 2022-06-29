@@ -1,0 +1,14 @@
+
+$_background: map-get($theme, background);
+$_foreground: map-get($theme, foreground);
+$_primary: map-get(map-get($theme, color), primary);
+
+$default: map-get($_primary, default);
+$light: map-get($_primary, lighter);
+
+.primary {
+  color: $default;
+}
+.light {
+  color: $light;
+}
