@@ -7,6 +7,11 @@ import { AboutComponent } from './pages/main-page/about/about.component';
 import { OtherServiceLinkComponent } from './pages/main-page/about/other-service-link/other-service-link.component';
 import { ProjectsComponent } from './pages/main-page/projects/projects.component';
 import { ProjectCardComponent } from './pages/main-page/projects/project-card/project-card.component';
+import { ProfileComponent } from './components/profile/profile.component';
+
+
+
+
 
 @NgModule({
   declarations: [
@@ -14,7 +19,8 @@ import { ProjectCardComponent } from './pages/main-page/projects/project-card/pr
     AboutComponent,
     OtherServiceLinkComponent,
     ProjectsComponent,
-    ProjectCardComponent
+    ProjectCardComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

@@ -17,9 +17,13 @@
   ));
 
   @import "theme-common";
-  background-color: map-get($_background, background);
-  color: map-get($_foreground, text);
+  &.t {
+    background-color: map-get($_background, background);
+    color: map-get($_foreground, text);
+  }
+
 
   @include mat.all-component-themes($theme);
 }
+
 
