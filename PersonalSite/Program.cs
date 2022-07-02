@@ -1,19 +1,19 @@
 using PersonalSite.Infrastructure.SimpleInject;
+using PersonalSite.Infrastructure.Swagger;
+using PersonalSite.Services.Auth;
 using SimpleInjector;
 
 var builder = WebApplication.CreateBuilder(args);
 var container = new Container();
-// Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddSimpleInjectorContainer(container);
+builder.Services.AddSwagger();
+builder.Services.AddAuth(builder.Configuration);
+builder.AddSimpleInjectorDi(container);
 
 var app = builder.Build();
-app.Services.UseSimpleInjector(container);
-container.Verify();
+app.Services.AddSimpleInjectorDi(container);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -24,6 +24,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
