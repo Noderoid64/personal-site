@@ -13,7 +13,7 @@ export class ProfileComponent {
   }
 
   public onLogin(): void {
-    this.auth.signIn();
+    this.auth.signInByGoogle();
   }
 
   public onLogOut(): void {

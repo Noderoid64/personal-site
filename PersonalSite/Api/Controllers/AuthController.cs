@@ -1,23 +1,27 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PersonalSite.Api.Dtos;
 using PersonalSite.Services.Auth;
 
 namespace PersonalSite.Api.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("[controller]")]
+[Route("auth")]
 public class AuthController : ControllerBase
 {
     private readonly AuthService _authService;
+    private readonly IMapper _mapper;
 
-    public AuthController(AuthService authService)
+    public AuthController(AuthService authService, IMapper mapper)
     {
         _authService = authService;
+        _mapper = mapper;
     }
 
     [AllowAnonymous]
-    [HttpGet("register")]
+    [HttpPost("register")]
     public async Task<IActionResult> Register(string email, string password, string nickname)
     {
         var profile = await _authService.RegisterAsync(email, password, nickname);
@@ -27,31 +31,30 @@ public class AuthController : ControllerBase
     }
 
     [AllowAnonymous]
-    [HttpGet]
+    [HttpPost]
     public async Task<IActionResult> Auth(string email, string pass)
     {
         var result = await _authService.AuthorizeAsync(email, pass);
         if (!result.IsSuccess)
             return Unauthorized();
-        return Ok(result.Value);
+        
+        var profileDto = _mapper.Map<ProfileDto>(result.Value.profile);
+        profileDto.Token = result.Value.token;
+        return Ok(profileDto);
     }
     
     [AllowAnonymous]
-    [HttpGet("google")]
+    [HttpPost("google")]
     public async Task<IActionResult> AuthByGoogleCode(string code)
     {
-        // var a = new HttpClient();
-        // var request = new HttpRequestMessage();
-        // request.Headers
-        //     .Accept
-        //     .Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
-        // request.Method = HttpMethod.Post;
-        // request.RequestUri = new Uri("https://oauth2.googleapis.com/token?code=" + code + "&client_id=714351833041-ohb8v036d4efaoo6g0bs38us42ff4v8r.apps.googleusercontent.com&client_secret=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&redirect_uri=http://localhost:4200&grant_type=authorization_code");
-        //
-        // var response = await a.SendAsync(request);
-        // Console.WriteLine(response);
-        //
-        // return Ok();
-        throw new NotImplementedException();
+        var res = await _authService.AuthorizeByGoogleAsync(code);
+        if (res.IsSuccess)
+        {
+            var profileDto = _mapper.Map<ProfileDto>(res.Value.profile);
+            profileDto.Token = res.Value.token;
+            return Ok(profileDto);
+        }
+            
+        return BadRequest(res.ErrorMessage);
     }
 }

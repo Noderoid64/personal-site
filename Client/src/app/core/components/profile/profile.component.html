@@ -1,10 +1,11 @@
-<div [ngSwitch]="(auth.user$ | async)" class="profile-image-component">
+<div [ngSwitch]="(auth.user$ | async)?.profilePicture" class="profile-image-component">
   <button mat-icon-button *ngSwitchCase="null" [matMenuTriggerFor]="unLogged">
-    <mat-icon>account_circle</mat-icon>
+    <mat-icon class="m-icon">account_circle</mat-icon>
   </button>
-  <img *ngSwitchDefault class="profile-image" referrerpolicy="no-referrer" [src]="(auth.user$ | async)?.photoURL" [matMenuTriggerFor]="logged">
+  <img *ngSwitchDefault class="profile-image" referrerpolicy="no-referrer" [src]="(auth.user$ | async)?.profilePicture" [matMenuTriggerFor]="logged">
 </div>
 <mat-menu #logged="matMenu">
+  <span mat-menu-item class="mat-caption menu-nick">{{(auth.user$ | async)?.nickName}}</span>
   <button mat-menu-item (click)="onLogOut()">Log out</button>
 </mat-menu>
 <mat-menu #unLogged="matMenu">

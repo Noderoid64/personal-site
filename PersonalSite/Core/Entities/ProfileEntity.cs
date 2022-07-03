@@ -10,6 +10,8 @@ public class ProfileEntity
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? Nickname { get; set; }
+    public string? ProfilePicture { get; set; }
     
     public virtual ProfileCredentialsEntity ProfileCredentials { get; set; }
+    public virtual GoogleProfileEntity? GoogleProfileEntity { get; set; }
 }

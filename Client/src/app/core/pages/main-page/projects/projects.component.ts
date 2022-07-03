@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {FirebaseService} from "../../../services/firebase.service";
 
 @Component({
   selector: 'app-projects',
@@ -8,7 +7,7 @@ import {FirebaseService} from "../../../services/firebase.service";
 })
 export class ProjectsComponent {
 
-  constructor(private authService: FirebaseService) {
+  constructor() {
   }
 }
 

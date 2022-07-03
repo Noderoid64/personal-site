@@ -1,3 +1,7 @@
 export interface User {
-  photoURL: string;
+  profilePicture?: string;
+  firstName?: string;
+  lastName?: string;
+  nickName?: string;
+  token: string;
 }

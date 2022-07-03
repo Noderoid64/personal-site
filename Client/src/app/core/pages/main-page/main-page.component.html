@@ -5,7 +5,7 @@
       <div class="right-side">
         <app-profile></app-profile>
         <button mat-icon-button class="material-symbols-outlined" (click)="onThemeChangeClick() ">
-          <mat-icon>{{(theme$ | async) === 'dark' ? 'dark_mode' : 'light_mode'}}</mat-icon>
+          <mat-icon class="m-icon">{{(theme$ | async) === 'dark' ? 'dark_mode' : 'light_mode'}}</mat-icon>
         </button>
       </div>
     </mat-toolbar-row>

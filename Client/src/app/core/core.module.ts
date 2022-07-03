@@ -8,6 +8,7 @@ import { OtherServiceLinkComponent } from './pages/main-page/about/other-service
 import { ProjectsComponent } from './pages/main-page/projects/projects.component';
 import { ProjectCardComponent } from './pages/main-page/projects/project-card/project-card.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { HttpClientModule} from "@angular/common/http";
 
 
 
@@ -25,6 +26,7 @@ import { ProfileComponent } from './components/profile/profile.component';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     MaterialModule
   ],
   bootstrap: [
