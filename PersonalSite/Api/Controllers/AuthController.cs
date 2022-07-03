@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PersonalSite.Services.Auth;
 
-namespace PersonalSite.Controllers;
+namespace PersonalSite.Api.Controllers;
 
 [Authorize]
 [ApiController]
@@ -17,15 +17,23 @@ public class AuthController : ControllerBase
     }
 
     [AllowAnonymous]
-    [HttpGet]
-    public IActionResult Auth(string email, string pass)
+    [HttpGet("register")]
+    public async Task<IActionResult> Register(string email, string password, string nickname)
     {
-        var result = _authService.Authorize(email, pass);
-        if (string.IsNullOrEmpty(result))
-        {
+        var profile = await _authService.RegisterAsync(email, password, nickname);
+        if (profile.IsSuccess)
+            return Ok();
+        return BadRequest(profile.ErrorMessage);
+    }
+
+    [AllowAnonymous]
+    [HttpGet]
+    public async Task<IActionResult> Auth(string email, string pass)
+    {
+        var result = await _authService.AuthorizeAsync(email, pass);
+        if (!result.IsSuccess)
             return Unauthorized();
-        }
-        return Ok(result);
+        return Ok(result.Value);
     }
     
     [AllowAnonymous]

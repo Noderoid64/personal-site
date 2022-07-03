@@ -1,4 +1,5 @@
-﻿using PersonalSite.Services.Auth;
+﻿using PersonalSite.Infrastructure.EF;
+using PersonalSite.Services.Auth;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
 
@@ -13,6 +14,7 @@ public static class SimpleInjectExtension
 
         // Here should be registrations
         container.RegisterAuth(wab.Configuration);
+        container.RegisterDbContext();
   
         wab.Services.AddSimpleInjector(container, op =>  
         {  
