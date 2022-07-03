@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using PersonalSite.Services.Auth.Models;
+using PersonalSite.Services.Auth.Services;
 using SimpleInjector;
 
 namespace PersonalSite.Services.Auth;
@@ -35,7 +36,7 @@ public static class AuthExtension
     public static void RegisterAuth(this Container container, IConfiguration config)
     {
         container.Register(() => new AuthConfig(config));
-        container.Register<AuthService>(Lifestyle.Scoped);
+        container.Register<AuthFacade>(Lifestyle.Scoped);
         container.Register<GoogleApi>(Lifestyle.Scoped);
         container.Register<TokenGenerator>(Lifestyle.Scoped);
     }

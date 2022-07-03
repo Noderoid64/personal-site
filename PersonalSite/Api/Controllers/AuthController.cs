@@ -11,12 +11,12 @@ namespace PersonalSite.Api.Controllers;
 [Route("auth")]
 public class AuthController : ControllerBase
 {
-    private readonly AuthService _authService;
+    private readonly AuthFacade _authFacade;
     private readonly IMapper _mapper;
 
-    public AuthController(AuthService authService, IMapper mapper)
+    public AuthController(AuthFacade authFacade, IMapper mapper)
     {
-        _authService = authService;
+        _authFacade = authFacade;
         _mapper = mapper;
     }
 
@@ -24,7 +24,7 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register(string email, string password, string nickname)
     {
-        var profile = await _authService.RegisterAsync(email, password, nickname);
+        var profile = await _authFacade.RegisterAsync(email, password, nickname);
         if (profile.IsSuccess)
             return Ok();
         return BadRequest(profile.ErrorMessage);
@@ -34,7 +34,7 @@ public class AuthController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Auth(string email, string pass)
     {
-        var result = await _authService.AuthorizeAsync(email, pass);
+        var result = await _authFacade.AuthorizeAsync(email, pass);
         if (!result.IsSuccess)
             return Unauthorized();
         
@@ -47,7 +47,7 @@ public class AuthController : ControllerBase
     [HttpPost("google")]
     public async Task<IActionResult> AuthByGoogleCode(string code)
     {
-        var res = await _authService.AuthorizeByGoogleAsync(code);
+        var res = await _authFacade.AuthorizeByGoogleAsync(code);
         if (res.IsSuccess)
         {
             var profileDto = _mapper.Map<ProfileDto>(res.Value.profile);

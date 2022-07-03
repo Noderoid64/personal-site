@@ -3,17 +3,18 @@ using PersonalSite.Core.Entities;
 using PersonalSite.Infrastructure.Common.Models;
 using PersonalSite.Infrastructure.EF;
 using PersonalSite.Services.Auth.Models;
+using PersonalSite.Services.Auth.Services;
 
 namespace PersonalSite.Services.Auth;
 
-public class AuthService
+public class AuthFacade
 {
     private readonly AuthConfig _authConfig;
     private readonly ApplicationContext _context;
     private readonly TokenGenerator _tokenGenerator;
     private readonly GoogleApi _googleApi;
 
-    public AuthService(
+    public AuthFacade(
         AuthConfig authConfig, 
         ApplicationContext context, 
         TokenGenerator tokenGenerator,

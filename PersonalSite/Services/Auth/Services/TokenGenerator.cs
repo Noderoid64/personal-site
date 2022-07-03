@@ -2,9 +2,8 @@
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using PersonalSite.Services.Auth.Models;
 
-namespace PersonalSite.Services.Auth;
+namespace PersonalSite.Services.Auth.Services;
 
 public class TokenGenerator
 {

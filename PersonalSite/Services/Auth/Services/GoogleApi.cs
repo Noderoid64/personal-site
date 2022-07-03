@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using PersonalSite.Infrastructure.Common.Models;
 using PersonalSite.Services.Auth.Models;
 
-namespace PersonalSite.Services.Auth;
+namespace PersonalSite.Services.Auth.Services;
 
 public class GoogleApi
 {
