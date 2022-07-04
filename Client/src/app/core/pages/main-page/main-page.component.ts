@@ -1,6 +1,6 @@
-import { Component} from '@angular/core';
-import {ThemeService} from "../../services/theme.service";
+import { Component } from '@angular/core';
 import {Observable} from "rxjs";
+import {ThemeService} from "../../services/theme.service";
 import {AuthService} from "../../services/auth.service";
 
 @Component({

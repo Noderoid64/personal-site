@@ -1,33 +1,34 @@
 import { NgModule } from '@angular/core';
-import { MainPageComponent } from './pages/main-page/main-page.component';
+import { DeveloperPageComponent } from './pages/developer-page/developer-page.component';
 import {MaterialModule} from "../shared/modules/material.module";
 import {BrowserModule} from "@angular/platform-browser";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import { AboutComponent } from './pages/main-page/about/about.component';
-import { OtherServiceLinkComponent } from './pages/main-page/about/other-service-link/other-service-link.component';
-import { ProjectsComponent } from './pages/main-page/projects/projects.component';
-import { ProjectCardComponent } from './pages/main-page/projects/project-card/project-card.component';
+import { AboutComponent } from './pages/developer-page/about/about.component';
+import { OtherServiceLinkComponent } from './pages/developer-page/about/other-service-link/other-service-link.component';
+import { ProjectsComponent } from './pages/developer-page/projects/projects.component';
+import { ProjectCardComponent } from './pages/developer-page/projects/project-card/project-card.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { HttpClientModule} from "@angular/common/http";
-
-
-
+import { MainPageComponent } from './pages/main-page/main-page.component';
+import {CoreRoutingModule} from "./core-routing.module";
 
 
 @NgModule({
   declarations: [
-    MainPageComponent,
+    DeveloperPageComponent,
     AboutComponent,
     OtherServiceLinkComponent,
     ProjectsComponent,
     ProjectCardComponent,
-    ProfileComponent
+    ProfileComponent,
+    MainPageComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    MaterialModule
+    MaterialModule,
+    CoreRoutingModule
   ],
   bootstrap: [
     MainPageComponent
