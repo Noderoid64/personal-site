@@ -1,5 +1,6 @@
 ﻿using PersonalSite.Infrastructure.Automapper;
 using PersonalSite.Infrastructure.EF;
+using PersonalSite.Infrastructure.SimpleInject.CoreRegistrations;
 using PersonalSite.Services.Auth;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
@@ -17,6 +18,7 @@ public static class SimpleInjectExtension
         container.RegisterAutomapper();
         container.RegisterAuth(wab.Configuration);
         container.RegisterDbContext();
+        container.RegisterCoreBlog();
   
         wab.Services.AddSimpleInjector(container, op =>  
         {  
