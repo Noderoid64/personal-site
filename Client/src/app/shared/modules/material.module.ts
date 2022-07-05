@@ -8,6 +8,7 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatInputModule} from "@angular/material/input";
 import {ClipboardModule} from "@angular/cdk/clipboard";
 import {MatDividerModule} from "@angular/material/divider";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   exports: [
@@ -19,7 +20,8 @@ import {MatDividerModule} from "@angular/material/divider";
     MatMenuModule,
     MatInputModule,
     ClipboardModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTooltipModule
   ],
 })
 export class MaterialModule {

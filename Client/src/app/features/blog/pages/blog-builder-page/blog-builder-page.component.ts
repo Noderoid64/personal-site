@@ -31,6 +31,15 @@ export class BlogBuilderPageComponent {
     }
   }
 
+  public onHorizontalLine(): void {
+    if (this.sourceTextArea) {
+      let newValue: string = this.sourceTextArea.nativeElement.value;
+      newValue = newValue.slice(0, this.selectionStart) + '\n---' + newValue.slice(this.selectionStart);
+      this.sourceControl.setValue(newValue)
+      this.updateSourceHeight(this.sourceTextArea.nativeElement);
+    }
+  }
+
   public onSourceClick(event: any): void {
     this.selectionStart = event.target.selectionStart;
   }

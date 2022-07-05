@@ -6,6 +6,7 @@ import {MarkdownModule} from "ngx-markdown";
 import {MaterialModule} from "../../shared/modules/material.module";
 import {ReactiveFormsModule} from "@angular/forms";
 import { CodeSelectorComponent } from './pages/blog-builder-page/code-selector/code-selector.component';
+import { HorizontalLineComponent } from './pages/blog-builder-page/horizontal-line/horizontal-line.component';
 
 const routes: Routes = [
   {
@@ -17,7 +18,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     BlogBuilderPageComponent,
-    CodeSelectorComponent
+    CodeSelectorComponent,
+    HorizontalLineComponent
   ],
   imports: [
     CommonModule,

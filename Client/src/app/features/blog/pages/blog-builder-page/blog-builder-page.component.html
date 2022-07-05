@@ -1,11 +1,12 @@
 <div>
   <mat-card class="builder-toolbar">
     <div>
+      <app-code-selector (selected)="onCodeSelection($event)" matTooltip="Insert code block"></app-code-selector>
+      <app-horizontal-line (clicked)="onHorizontalLine()" matTooltip="Insert horizontal line"></app-horizontal-line>
       <button mat-button [cdkCopyToClipboard]="sourceControl.value ?? ''">
         <mat-icon>content_copy</mat-icon>
         Copy
       </button>
-      <app-code-selector (selected)="onCodeSelection($event)"></app-code-selector>
     </div>
   </mat-card>
   <div class="content">
