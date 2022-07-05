@@ -1,4 +1,4 @@
-@use '@angular/material' as mat;
+@use '../../../../node_modules/@angular/material/index' as mat;
 
 .light-theme {
   $Client-primary: mat.define-palette(mat.$indigo-palette, 600, 300, 900);
@@ -16,8 +16,8 @@
     )
   ));
 
-  @import "theme-common";
-  @import "code-highlight/prism.min";
+  @import "../theme-common";
+  @import "../../code-highlight/prism.min";
 
   @include mat.all-component-themes($theme);
 }

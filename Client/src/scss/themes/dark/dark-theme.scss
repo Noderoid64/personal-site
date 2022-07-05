@@ -1,4 +1,5 @@
-@use '@angular/material' as mat;
+@use '../../../../node_modules/@angular/material/index' as mat;
+@use 'mat-button' as button;
 
 .dark-theme {
   $Client-primary: mat.define-palette(mat.$indigo-palette, 600, 300, 900);
@@ -16,16 +17,16 @@
     )
   ));
 
-  @import "theme-common";
-  @import "code-highlight/prism-okaidia.min";
+  @import "../theme-common";
+  @import "../../code-highlight/prism-okaidia.min";
 
   &.t {
     background-color: map-get($_background, background);
     color: map-get($_foreground, text);
   }
 
-
   @include mat.all-component-themes($theme);
+  @include button.theme($theme);
 }
 
 
