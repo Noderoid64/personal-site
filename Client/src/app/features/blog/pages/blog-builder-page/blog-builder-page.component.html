@@ -1,1 +1,24 @@
-<p>blog-builder-page works!</p>
+<div>
+  <mat-card>
+    <div>
+      <button mat-button color="primary" [cdkCopyToClipboard]="sourceControl.value ?? ''">
+        <mat-icon>content_copy</mat-icon>
+        Copy
+      </button>
+    </div>
+  </mat-card>
+  <div class="content">
+    <div class="source-wrapper">
+      <mat-form-field appearance="fill">
+        <mat-label >Source</mat-label>
+        <textarea clipboard (input)="onSourceInput($event)" (keydown)="handleKeydown($event)" matInput [formControl]="sourceControl"></textarea>
+      </mat-form-field>
+    </div>
+    <div class="result-wrapper background">
+      <markdown  id="md" emoji  lineNumbers lineHighlight [data]="((sourceControl.valueChanges | async ) ?? '')">
+      </markdown>
+    </div>
+  </div>
+
+
+</div>

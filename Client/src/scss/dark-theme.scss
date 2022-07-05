@@ -17,6 +17,8 @@
   ));
 
   @import "theme-common";
+  @import "code-highlight/prism-okaidia.min";
+
   &.t {
     background-color: map-get($_background, background);
     color: map-get($_foreground, text);

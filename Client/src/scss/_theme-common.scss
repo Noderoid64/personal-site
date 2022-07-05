@@ -12,6 +12,9 @@ $light: map-get($_primary, lighter);
 .light {
   color: $light;
 }
+.background {
+  background-color: map-get($_background, card);
+}
 
 .m-icon {
   width: 32px;

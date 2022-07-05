@@ -17,6 +17,7 @@
   ));
 
   @import "theme-common";
+  @import "code-highlight/prism.min";
 
   @include mat.all-component-themes($theme);
 }

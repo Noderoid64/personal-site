@@ -1,0 +1,24 @@
+.content {
+  display: flex;
+  width: 100%;
+  %wrapper {
+    width: 50%;
+    margin: 16px;
+  }
+  .source-wrapper {
+    @extend %wrapper;
+
+    mat-form-field {
+      width: 100%;
+      textarea {
+        line-height: 1.5;
+      }
+    }
+
+  }
+  .result-wrapper {
+    @extend %wrapper;
+    border-radius: 4px;
+    padding: 16px;
+  }
+}
