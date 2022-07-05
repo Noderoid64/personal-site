@@ -7,6 +7,7 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatInputModule} from "@angular/material/input";
 import {ClipboardModule} from "@angular/cdk/clipboard";
+import {MatDividerModule} from "@angular/material/divider";
 
 @NgModule({
   exports: [
@@ -17,7 +18,8 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
     MatTabsModule,
     MatMenuModule,
     MatInputModule,
-    ClipboardModule
+    ClipboardModule,
+    MatDividerModule
   ],
 })
 export class MaterialModule {

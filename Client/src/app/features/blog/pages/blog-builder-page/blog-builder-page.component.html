@@ -1,17 +1,18 @@
 <div>
-  <mat-card>
+  <mat-card class="builder-toolbar">
     <div>
       <button mat-button [cdkCopyToClipboard]="sourceControl.value ?? ''">
         <mat-icon>content_copy</mat-icon>
         Copy
       </button>
+      <app-code-selector (selected)="onCodeSelection($event)"></app-code-selector>
     </div>
   </mat-card>
   <div class="content">
     <div class="source-wrapper">
       <mat-form-field appearance="fill">
         <mat-label >Source</mat-label>
-        <textarea clipboard (input)="onSourceInput($event)" (keydown)="handleKeydown($event)" matInput [formControl]="sourceControl"></textarea>
+        <textarea #source clipboard (input)="onSourceInput($event)" (click)="onSourceClick($event)" (keydown)="handleKeydown($event)" matInput [formControl]="sourceControl"></textarea>
       </mat-form-field>
     </div>
     <div class="result-wrapper background">

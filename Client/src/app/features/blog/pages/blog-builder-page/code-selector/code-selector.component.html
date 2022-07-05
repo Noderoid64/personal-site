@@ -1,0 +1,33 @@
+<div>
+  <button mat-button [matMenuTriggerFor]="codeMenu">
+    <mat-icon>code</mat-icon>
+    Code
+  </button>
+  <mat-menu #codeMenu="matMenu">
+    <button mat-menu-item (click)="selected.emit('default')">
+      <span>Default</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="selected.emit('javascript')">
+      <mat-icon>javascript</mat-icon>
+      <span>Javascript</span>
+    </button>
+    <button mat-menu-item (click)="selected.emit('css')">
+      <mat-icon>css</mat-icon>
+      <span>Css</span>
+    </button>
+    <button mat-menu-item (click)="selected.emit('html')">
+      <mat-icon>html</mat-icon>
+      <span>Html</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item [matMenuTriggerFor]="otherCode">
+      <span>Other</span>
+    </button>
+  </mat-menu>
+
+  <mat-menu #otherCode="matMenu">
+    <button mat-menu-item (click)="selected.emit('csharp')">C#</button>
+    <button mat-menu-item (click)="selected.emit('typescript')">Typescript</button>
+  </mat-menu>
+</div>
