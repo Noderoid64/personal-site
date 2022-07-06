@@ -1,7 +1,9 @@
 .builder-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   div {
     display: flex;
-    align-items: center;
   }
 }
 
@@ -14,6 +16,9 @@
   }
   .source-wrapper {
     @extend %wrapper;
+    @media only screen and (max-width: 600px) {
+      width: 100%;
+    }
 
     mat-form-field {
       width: 100%;
@@ -29,4 +34,8 @@
     border-radius: 4px;
     padding: 16px;
   }
+}
+
+.full-width {
+  width: 100% !important;
 }

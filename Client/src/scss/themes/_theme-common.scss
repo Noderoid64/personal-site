@@ -29,3 +29,19 @@ $p-light: map-get($primary-palette, lighter);
   line-height: 32px !important;
   font-size: 32px;
 }
+
+@media only screen and (max-width: 600px) {
+  .hideable-600 {
+    display: none;
+  }
+}
+
+.showable-600 {
+  display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .showable-600 {
+    display: block;
+  }
+}

@@ -3,6 +3,9 @@
   .menu {
     display: flex;
     justify-content: space-between;
+    .logo {
+      cursor: pointer;
+    }
     .mat-display-1 {
       margin: 0;
     }

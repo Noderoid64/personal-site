@@ -9,6 +9,7 @@ import {MatInputModule} from "@angular/material/input";
 import {ClipboardModule} from "@angular/cdk/clipboard";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 @NgModule({
   exports: [
@@ -21,7 +22,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     MatInputModule,
     ClipboardModule,
     MatDividerModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSlideToggleModule
   ],
 })
 export class MaterialModule {

@@ -1,0 +1,17 @@
+.block-main-page {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  &-content {
+    padding: 16px;
+    max-width: 1024px;
+    display: flex;
+    flex-direction: column;
+    .mat-display-1 {
+      margin-bottom: 16px;
+    }
+    .search-bar {
+      width: 100%;
+    }
+  }
+}

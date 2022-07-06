@@ -1,7 +1,7 @@
 <div>
   <button mat-button [matMenuTriggerFor]="codeMenu">
     <mat-icon>code</mat-icon>
-    Code
+    <span class="hideable-600">Code</span>
   </button>
   <mat-menu #codeMenu="matMenu">
     <button mat-menu-item (click)="selected.emit('default')">

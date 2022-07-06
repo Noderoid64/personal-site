@@ -1,26 +1,30 @@
 <div>
+
   <mat-card class="builder-toolbar">
-    <div>
-      <app-code-selector (selected)="onCodeSelection($event)" matTooltip="Insert code block"></app-code-selector>
-      <app-horizontal-line (clicked)="onHorizontalLine()" matTooltip="Insert horizontal line"></app-horizontal-line>
-      <button mat-button [cdkCopyToClipboard]="sourceControl.value ?? ''">
-        <mat-icon>content_copy</mat-icon>
-        Copy
-      </button>
-    </div>
+      <div class="right-side">
+        <app-code-selector (selected)="onCodeSelection($event)" matTooltip="Insert code block"></app-code-selector>
+        <app-horizontal-line (clicked)="onHorizontalLine()" matTooltip="Insert horizontal line"></app-horizontal-line>
+      </div>
+      <div class="left-side">
+        <button mat-button [cdkCopyToClipboard]="sourceControl.value ?? ''">
+          <mat-icon>content_copy</mat-icon>
+          <span class="hideable-600">Copy</span>
+        </button>
+        <app-view-mode (toggle)="onViewModeChange($event)"></app-view-mode>
+      </div>
   </mat-card>
+
   <div class="content">
-    <div class="source-wrapper">
-      <mat-form-field appearance="fill">
+    <div class="source-wrapper" *ngIf="!isViewMode">
+      <mat-form-field appearance="fill" >
         <mat-label >Source</mat-label>
         <textarea #source clipboard (input)="onSourceInput($event)" (click)="onSourceClick($event)" (keydown)="handleKeydown($event)" matInput [formControl]="sourceControl"></textarea>
       </mat-form-field>
     </div>
-    <div class="result-wrapper background">
+    <div class="result-wrapper background" [ngClass]="!isViewMode ? 'hideable-600' : 'full-width'">
       <markdown  id="md" emoji  lineNumbers lineHighlight [data]="((sourceControl.valueChanges | async ) ?? '')">
       </markdown>
     </div>
   </div>
-
 
 </div>

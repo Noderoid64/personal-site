@@ -1,14 +1,21 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
-import { BlogBuilderPageComponent } from './pages/blog-builder-page/blog-builder-page.component';
+import {BlogBuilderPageComponent} from './pages/blog-builder-page/blog-builder-page.component';
 import {MarkdownModule} from "ngx-markdown";
 import {MaterialModule} from "../../shared/modules/material.module";
 import {ReactiveFormsModule} from "@angular/forms";
-import { CodeSelectorComponent } from './pages/blog-builder-page/code-selector/code-selector.component';
-import { HorizontalLineComponent } from './pages/blog-builder-page/horizontal-line/horizontal-line.component';
+import {CodeSelectorComponent} from './pages/blog-builder-page/code-selector/code-selector.component';
+import {HorizontalLineComponent} from './pages/blog-builder-page/horizontal-line/horizontal-line.component';
+import {BlogMainPageComponent} from './pages/blog-main-page/blog-main-page.component';
+import {PostApiService} from "./services/post-api.service";
+import { ViewModeComponent } from './pages/blog-builder-page/view-mode/view-mode.component';
 
 const routes: Routes = [
+  {
+    path: "builder",
+    component: BlogBuilderPageComponent
+  },
   {
     path: "**",
     component: BlogBuilderPageComponent
@@ -19,7 +26,9 @@ const routes: Routes = [
   declarations: [
     BlogBuilderPageComponent,
     CodeSelectorComponent,
-    HorizontalLineComponent
+    HorizontalLineComponent,
+    BlogMainPageComponent,
+    ViewModeComponent
   ],
   imports: [
     CommonModule,
@@ -27,6 +36,10 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     MaterialModule,
     ReactiveFormsModule
+  ],
+  providers: [
+    PostApiService
   ]
 })
-export class BlogModule { }
+export class BlogModule {
+}

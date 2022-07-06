@@ -1,7 +1,7 @@
 <div [ngClass]="(theme$ | async) === 'dark'? 'dark-theme' : 'light-theme'" class="t main-container">
   <mat-toolbar color="primary">
     <mat-toolbar-row class="menu">
-      <span class="mat-display-1">Noderoid.dev</span>
+      <span class="mat-display-1 logo" routerLink="">Noderoid.dev</span>
       <div class="right-side">
         <app-profile></app-profile>
         <button mat-icon-button class="material-symbols-outlined" (click)="onThemeChangeClick() ">

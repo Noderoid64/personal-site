@@ -9,7 +9,9 @@ import {FormControl} from "@angular/forms";
 export class BlogBuilderPageComponent {
 
   public sourceControl = new FormControl<string>('');
+  public isViewMode = false;
   private selectionStart: number = 0;
+
   @ViewChild('source') sourceTextArea?: ElementRef;
 
   public handleKeydown(event:any) {
@@ -31,6 +33,11 @@ export class BlogBuilderPageComponent {
     }
   }
 
+  public onViewModeChange(value: boolean) {
+   this.isViewMode = value;
+   setTimeout(() => this.updateSourceHeight(this.sourceTextArea?.nativeElement), 10);
+  }
+
   public onHorizontalLine(): void {
     if (this.sourceTextArea) {
       let newValue: string = this.sourceTextArea.nativeElement.value;
@@ -49,8 +56,10 @@ export class BlogBuilderPageComponent {
   }
 
   private updateSourceHeight (target: any) {
-    this.selectionStart = target.selectionStart;
-    target.style.height = "";
-    target.style.height = (target?.scrollHeight + 20) + "px"
+    if (target) {
+      this.selectionStart = target.selectionStart;
+      target.style.height = "";
+      target.style.height = (target?.scrollHeight + 20) + "px"
+    }
   }
 }
