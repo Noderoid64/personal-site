@@ -5,9 +5,15 @@ namespace PersonalSite.Api.Controllers;
 
 public class ApiController : ControllerBase
 {
-    protected int GetUserId()
+    protected string GetUserId()
     {
         var identity = HttpContext.User.Identity as ClaimsIdentity;
-        return int.Parse(identity.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Sid))?.Value);       
+        return identity.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Sid))?.Value;       
+    }
+
+    protected string GetUserType()
+    {
+        var identity = HttpContext.User.Identity as ClaimsIdentity;
+        return identity.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.AuthenticationMethod))?.Value;       
     }
 }

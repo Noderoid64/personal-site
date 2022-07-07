@@ -7,23 +7,26 @@ using PersonalSite.Services.Auth.Services;
 
 namespace PersonalSite.Services.Auth;
 
-public class AuthFacade
+public class AuthFacade : IAuthFacade
 {
     private readonly AuthConfig _authConfig;
     private readonly ApplicationContext _context;
     private readonly TokenGenerator _tokenGenerator;
     private readonly GoogleApi _googleApi;
+    private readonly ProfileUpdater _profileUpdater;
 
     public AuthFacade(
-        AuthConfig authConfig, 
-        ApplicationContext context, 
+        AuthConfig authConfig,
+        ApplicationContext context,
         TokenGenerator tokenGenerator,
-        GoogleApi googleApi)
+        GoogleApi googleApi,
+        ProfileUpdater profileUpdater)
     {
         _authConfig = authConfig;
         _context = context;
         _tokenGenerator = tokenGenerator;
         _googleApi = googleApi;
+        _profileUpdater = profileUpdater;
     }
 
     public async Task<Result<ProfileEntity>> RegisterAsync(string email, string password, string nickname)
@@ -31,11 +34,11 @@ public class AuthFacade
         ArgumentNullException.ThrowIfNull(email);
         ArgumentNullException.ThrowIfNull(password);
         ArgumentNullException.ThrowIfNull(nickname);
-        
+
         var existed = await _context.Profiles
             .Include(x => x.ProfileCredentials)
             .FirstOrDefaultAsync(x =>
-            x.Nickname == nickname || x.ProfileCredentials.Email == email);
+                x.Nickname == nickname || x.ProfileCredentials.Email == email);
 
         if (existed != null)
         {
@@ -55,91 +58,60 @@ public class AuthFacade
                 Password = password
             }
         };
-        
+
         _context.Profiles.Add(profile);
         await _context.SaveChangesAsync();
         return Result<ProfileEntity>.Success(profile);
     }
-    
-    public async Task<Result<(ProfileEntity profile, string token)>> AuthorizeAsync(string email, string password)
+
+    public async Task<Result<AuthInfo>> AuthorizeAsync(string email, string password)
     {
         ArgumentNullException.ThrowIfNull(email);
         ArgumentNullException.ThrowIfNull(password);
-        
+
         var creds = await _context.ProfileCredentials
             .Include(x => x.Profile)
             .FirstOrDefaultAsync(x => x.Email == email && x.Password == password);
         if (creds == null)
-            return Result<(ProfileEntity profile, string token)>.Fail($"Login failed: try different credentials");
-        
-        var token = _tokenGenerator.Generate(
-            _authConfig.PrivateKey, 
-            creds.Profile.Id.ToString(), 
-            false);
-        
-        return Result<(ProfileEntity profile, string token)>.Success((creds.Profile, token));
+            return Result<AuthInfo>.Fail($"Login failed: try different credentials");
+
+        var token = _tokenGenerator.Generate(_authConfig.PrivateKey, creds.Profile.Id);
+
+        return Result<AuthInfo>.Success(new AuthInfo(creds.Profile, token));
     }
 
-    public async Task<Result<(ProfileEntity profile, string token)>> AuthorizeByGoogleAsync(string authCode)
+    public async Task<Result<AuthInfo>> AuthorizeByGoogleAsync(string authCode)
     {
         ArgumentNullException.ThrowIfNull(authCode);
-        
+
         var tokenResult = await _googleApi.AuthAsync(authCode);
-        if (tokenResult.IsSuccess)
+        if (!tokenResult.IsSuccess)
+            return Result<AuthInfo>.FromFail(tokenResult);
+
+        var gProfileResult = await _googleApi.GetProfile(tokenResult.Value);
+        if (!gProfileResult.IsSuccess)
+            return Result<AuthInfo>.FromFail(tokenResult);
+        
+        GoogleProfile gProfile = gProfileResult.Value;
+        var profile = await _context.Profiles
+            .Include(x => x.GoogleProfileEntity)
+            .FirstOrDefaultAsync(x =>
+                x.GoogleProfileEntity != null && 
+                x.GoogleProfileEntity.SourceId.Equals(gProfile.SourceId));
+        
+        if (profile == null)
         {
-            var gProfileResult = await _googleApi.GetProfile(tokenResult.Value);
-            if (gProfileResult.IsSuccess)
-            {
-                GoogleProfile gProfile = gProfileResult.Value;
-                var profile = await _context.Profiles
-                    .Include(x => x.GoogleProfileEntity)
-                    .FirstOrDefaultAsync(x => x.GoogleProfileEntity != null && x.GoogleProfileEntity.SourceId.Equals(gProfile.SourceId));
-                if (profile == null)
-                {
-                    profile = CreateNewOne(gProfile);
-                    _context.Profiles.Add(profile);
-                }
-                else
-                {
-                    profile = UpdateProfile(profile, gProfile);
-                    _context.Profiles.Update(profile);
-                }
-                await _context.SaveChangesAsync();
-                var token = _tokenGenerator.Generate(_authConfig.PrivateKey, gProfile.SourceId, true);
-                return Result<(ProfileEntity profile, string token)>.Success((profile, token));
-            }
-            return Result<(ProfileEntity profile, string token)>.FromFail(tokenResult);
+            profile = _profileUpdater.CreateNewOne(gProfile);
+            _context.Profiles.Add(profile);
         }
-        return Result<(ProfileEntity profile, string token)>.FromFail(tokenResult);
-    }
-
-    private ProfileEntity CreateNewOne(GoogleProfile gProfile)
-    {
-        return new ProfileEntity()
+        else
         {
-            FirstName = gProfile.FirstName,
-            LastName = gProfile.LastName,
-            ProfilePicture = gProfile.ProfilePicture,
-            GoogleProfileEntity = new GoogleProfileEntity()
-            {
-                SourceId = gProfile.SourceId,
-            }
-        };
-    }
-
-    private ProfileEntity UpdateProfile(ProfileEntity profile, GoogleProfile gProfile)
-    {
-        if (!string.Equals(profile.ProfilePicture, gProfile.ProfilePicture))
-        {
-            profile.ProfilePicture = gProfile.ProfilePicture;
-            
+            profile = _profileUpdater.UpdateProfile(profile, gProfile);
+            _context.Profiles.Update(profile);
         }
 
-        if (string.IsNullOrEmpty(profile.Nickname))
-        {
-            profile.Nickname = gProfile.FirstName + " " + gProfile.LastName;
-        }
-
-        return profile;
+        await _context.SaveChangesAsync();
+        var token = _tokenGenerator.Generate(_authConfig.PrivateKey, profile.Id);
+        return Result<AuthInfo>.Success(new AuthInfo(profile, token));
     }
 }

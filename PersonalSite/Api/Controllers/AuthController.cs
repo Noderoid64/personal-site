@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PersonalSite.Api.Dtos;
 using PersonalSite.Services.Auth;
 
 namespace PersonalSite.Api.Controllers;
@@ -35,12 +34,9 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Auth(string email, string pass)
     {
         var result = await _authFacade.AuthorizeAsync(email, pass);
-        if (!result.IsSuccess)
-            return Unauthorized();
-        
-        var profileDto = _mapper.Map<ProfileDto>(result.Value.profile);
-        profileDto.Token = result.Value.token;
-        return Ok(profileDto);
+        if (result.IsSuccess)
+            return Ok(result.Value);
+        return Unauthorized();
     }
     
     [AllowAnonymous]
@@ -49,12 +45,7 @@ public class AuthController : ControllerBase
     {
         var res = await _authFacade.AuthorizeByGoogleAsync(code);
         if (res.IsSuccess)
-        {
-            var profileDto = _mapper.Map<ProfileDto>(res.Value.profile);
-            profileDto.Token = res.Value.token;
-            return Ok(profileDto);
-        }
-            
+            return Ok(res.Value);
         return BadRequest(res.ErrorMessage);
     }
 }

@@ -7,7 +7,7 @@ namespace PersonalSite.Services.Auth.Services;
 
 public class TokenGenerator
 {
-    public string Generate(string privateKey, string id, bool isGoogleAuth)
+    public string Generate(string privateKey, int id)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var tokenKey = Encoding.UTF8.GetBytes(privateKey);
@@ -15,8 +15,7 @@ public class TokenGenerator
         {
             Subject = new ClaimsIdentity(new Claim[]
             {
-                new Claim(ClaimTypes.Sid, id),                 
-                new Claim(ClaimTypes.AuthenticationMethod, isGoogleAuth ? "google" : "regular")                    
+                new Claim(ClaimTypes.Sid, id.ToString())                  
             }),
             Expires = DateTime.UtcNow.AddMinutes(30),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey),SecurityAlgorithms.HmacSha256Signature)
