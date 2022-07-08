@@ -10,15 +10,19 @@ import {HorizontalLineComponent} from './pages/blog-builder-page/horizontal-line
 import {BlogMainPageComponent} from './pages/blog-main-page/blog-main-page.component';
 import {PostApiService} from "./services/post-api.service";
 import { ViewModeComponent } from './pages/blog-builder-page/view-mode/view-mode.component';
+import { SettingsDialogComponent } from './components/settings-dialog/settings-dialog.component';
 
 const routes: Routes = [
   {
+    path: "builder/:id",
+    component: BlogBuilderPageComponent
+  }, {
     path: "builder",
     component: BlogBuilderPageComponent
   },
   {
     path: "**",
-    component: BlogBuilderPageComponent
+    component: BlogMainPageComponent
   }
 ]
 
@@ -28,7 +32,8 @@ const routes: Routes = [
     CodeSelectorComponent,
     HorizontalLineComponent,
     BlogMainPageComponent,
-    ViewModeComponent
+    ViewModeComponent,
+    SettingsDialogComponent
   ],
   imports: [
     CommonModule,

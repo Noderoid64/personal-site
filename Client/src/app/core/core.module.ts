@@ -8,9 +8,10 @@ import { OtherServiceLinkComponent } from './pages/developer-page/about/other-se
 import { ProjectsComponent } from './pages/developer-page/projects/projects.component';
 import { ProjectCardComponent } from './pages/developer-page/projects/project-card/project-card.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import {CoreRoutingModule} from "./core-routing.module";
+import {JwtInterceptor} from "./services/token.interceptor";
 
 
 @NgModule({
@@ -32,6 +33,9 @@ import {CoreRoutingModule} from "./core-routing.module";
   ],
   bootstrap: [
     MainPageComponent
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ]
 })
 export class CoreModule { }

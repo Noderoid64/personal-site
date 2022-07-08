@@ -6,11 +6,19 @@
         <app-horizontal-line (clicked)="onHorizontalLine()" matTooltip="Insert horizontal line"></app-horizontal-line>
       </div>
       <div class="left-side">
+        <app-view-mode (toggle)="onViewModeChange($event)"></app-view-mode>
         <button mat-button [cdkCopyToClipboard]="sourceControl.value ?? ''">
           <mat-icon>content_copy</mat-icon>
           <span class="hideable-600">Copy</span>
         </button>
-        <app-view-mode (toggle)="onViewModeChange($event)"></app-view-mode>
+        <button mat-button (click)="onSettings()" matTooltip="Open settings">
+          <mat-icon>settings</mat-icon>
+          <span class="hideable-600">Settings</span>
+        </button>
+        <button mat-flat-button color="primary" (click)="onSave()" matTooltip="Save changes">
+          <mat-icon>save</mat-icon>
+          <span class="hideable-600">Save</span>
+        </button>
       </div>
   </mat-card>
 

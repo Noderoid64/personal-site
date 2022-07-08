@@ -1,0 +1,34 @@
+<div>
+  <h2 mat-dialog-title>Post settings</h2>
+  <mat-dialog-content class="mat-typography" [formGroup]="fg">
+    <mat-form-field appearance="fill" >
+      <mat-label>Title</mat-label>
+      <input matInput placeholder="How to beat procrastination" formControlName="title">
+      <mat-hint align="end">{{fg.controls['title'].value?.length ?? 0}} / 30</mat-hint>
+      <mat-error *ngIf="fg.controls['title'].hasError('required') && !fg.controls['title'].hasError('minlength') && !fg.controls['title'].hasError('maxlength')">
+        Please enter a value
+      </mat-error>
+      <mat-error *ngIf="!fg.controls['title'].hasError('required') && fg.controls['title'].hasError('minlength') && !fg.controls['title'].hasError('maxlength')">
+        Should be longer then 8 symbols
+      </mat-error>
+      <mat-error *ngIf="!fg.controls['title'].hasError('required') && !fg.controls['title'].hasError('minlength') && fg.controls['title'].hasError('maxlength')">
+        Should be no longer then 30 symbols
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill" >
+      <mat-label>Access type</mat-label>
+      <mat-select formControlName="accessType">
+        <mat-option [value]="AccessTypes.public">[Public] For everyone</mat-option>
+        <mat-option [value]="AccessTypes.private">[Private] Only for me</mat-option>
+        <mat-option [value]="AccessTypes.link">[Internal] By invitation link</mat-option>
+      </mat-select>
+      <mat-error *ngIf="fg.controls['title'].hasError('required')">
+        Please enter a value
+      </mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-flat-button [mat-dialog-close]="fg.value" [disabled]="!fg.valid" color="primary">Save</button>
+  </mat-dialog-actions>
+</div>

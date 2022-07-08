@@ -10,6 +10,8 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   exports: [
@@ -23,7 +25,9 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
     ClipboardModule,
     MatDividerModule,
     MatTooltipModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatDialogModule,
+    MatSelectModule
   ],
 })
 export class MaterialModule {

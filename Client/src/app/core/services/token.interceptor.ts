@@ -11,6 +11,7 @@ export class JwtInterceptor implements HttpInterceptor {
     // add auth header with jwt if account is logged in and request is to the api url
     let token;
     this.auth.user$.pipe(take(1)).subscribe(x => token = x?.token);
+    console.log('sdf');
     if (token) {
         request = request.clone({
           setHeaders: { Authorization: `Bearer ${token}` }

@@ -1,7 +1,8 @@
 <div class="block-main-page">
-  <div class="block-main-page-content">
-    <div *ngIf="isUserLogged$ | async">
-      <span class="mat-title">My posts</span>
-    </div>
+  <span class="mat-display-1 main-title">Share knowledge quickly, with Nod Blog</span>
+  <span class="mat-subheading-2 main-subtitle">Easily create and share posts, and build a community in real-time.</span>
+  <div class="button-section">
+    <button mat-stroked-button color="primary">Check public posts</button>
+    <button mat-flat-button color="primary" routerLink="/blog/builder">Create a new one</button>
   </div>
 </div>
