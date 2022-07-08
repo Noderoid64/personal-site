@@ -11,6 +11,8 @@ public class PostMerger
 
         oldOne.Content = newOne.Content;
         oldOne.EditedAt = DateTime.Now;
+        oldOne.Title = newOne.Title;
+        oldOne.PostAccessType = newOne.PostAccessType;
         
         return oldOne;
     }

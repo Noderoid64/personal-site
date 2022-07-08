@@ -8,6 +8,8 @@ public class PostEntity
     public DateTime CreatedAt { get; set; }
     public DateTime EditedAt { get; set; }
     public string Content { get; set; }
+    public string Title { get; set; }
+    public PostAccessType PostAccessType { get; set; }
     
     [ForeignKey("Profile")]
     public int ProfileId { get; set; }

@@ -4,7 +4,7 @@ using PersonalSite.Core.Entities;
 
 namespace PersonalSite.Api.Mappings;
 
-public class PostProfile:Profile
+public class PostProfile : Profile
 {
     public PostProfile()
     {

@@ -38,6 +38,7 @@ public static class AuthExtension
         container.Register(() => new AuthConfig(config));
         container.Register<AuthFacade>(Lifestyle.Scoped);
         container.Register<GoogleApi>(Lifestyle.Scoped);
+        container.Register<ProfileUpdater>(Lifestyle.Scoped);
         container.Register<TokenGenerator>(Lifestyle.Scoped);
     }
 }

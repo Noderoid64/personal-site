@@ -19,6 +19,15 @@ public class AuthController : ControllerBase
         _mapper = mapper;
     }
 
+    #if DEBUG
+    [AllowAnonymous]
+    [HttpGet("admin")]
+    public async Task<IActionResult> LoginAsAdmin()
+    {
+        return await Auth("noderoid64@gmail.com", "qwertyui");
+    }
+    #endif
+
     [AllowAnonymous]
     [HttpPost("register")]
     public async Task<IActionResult> Register(string email, string password, string nickname)

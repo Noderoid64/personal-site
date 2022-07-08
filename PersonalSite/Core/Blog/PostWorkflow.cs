@@ -54,7 +54,9 @@ public class PostWorkflow
                 Content = post.Content,
                 ProfileId = profile.Id,
                 CreatedAt = DateTime.UtcNow,
-                EditedAt = DateTime.UtcNow
+                EditedAt = DateTime.UtcNow,
+                Title = post.Title,
+                PostAccessType = post.PostAccessType
             };
             _postProvider.SavePost(postToSave);
         }

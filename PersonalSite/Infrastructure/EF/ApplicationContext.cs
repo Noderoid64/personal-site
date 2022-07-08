@@ -20,6 +20,7 @@ public class ApplicationContext: DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseNpgsql(_connectionString);
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         base.OnConfiguring(optionsBuilder);
     }
 }
