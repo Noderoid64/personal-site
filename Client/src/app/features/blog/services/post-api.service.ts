@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Observable, share} from "rxjs";
 import {environment} from "../../../../environments/environment";
 import {Post} from "../models/post";
 
@@ -20,5 +20,13 @@ export class PostApiService {
 
   public GetPostById(id: number): Observable<Post> {
     return this.http.get<Post>(environment.serverUri + '/blog/' + id);
+  }
+
+  public CreateNewFolder(parentId: number, title: string): Observable<any> {
+    return this.http.post(environment.serverUri + '/blog/folders/new?title=' + title +'&parentId=' + parentId, {});
+  }
+
+  public DeleteFile(fileId: number): Observable<any> {
+    return this.http.delete(environment.serverUri + '/blog?fileId=' + fileId).pipe(share());
   }
 }

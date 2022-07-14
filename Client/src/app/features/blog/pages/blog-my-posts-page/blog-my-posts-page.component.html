@@ -1,0 +1,75 @@
+<div class="block-my-posts-main-page">
+  <mat-drawer-container>
+    <mat-drawer #drawer mode="side" opened="true">
+      <div>
+        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+
+          <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding class="file-object">
+            <button mat-icon-button (click)="onPostClick(node.id)">
+              <mat-icon>description</mat-icon>
+            </button>
+            {{node.title}}
+            <button class="button-add" mat-icon-button [matMenuTriggerFor]="fileMenu">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+            <mat-menu #fileMenu="matMenu">
+              <button mat-menu-item (click)="onFolderDelete(node)">Delete</button>
+              <button mat-menu-item [routerLink]="'/blog/builder/' +  node.id">Edit</button>
+            </mat-menu>
+          </mat-tree-node>
+
+          <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding class="file-object">
+            <button mat-icon-button matTreeNodeToggle
+                    [attr.aria-label]="'Toggle ' + node.name">
+              <mat-icon class="mat-icon-rtl-mirror">
+                {{treeControl.isExpanded(node) ? 'folder_open' : 'folder'}}
+              </mat-icon>
+            </button>
+            {{node.title}}
+            <button class="button-add" mat-icon-button [matMenuTriggerFor]="folderMenu">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+            <mat-menu #folderMenu="matMenu">
+              <button mat-menu-item (click)="onNewFolder(node)">New folder</button>
+              <button mat-menu-item>New post</button>
+              <button mat-menu-item (click)="onFolderDelete(node)">Delete folder</button>
+            </mat-menu>
+          </mat-tree-node>
+
+          <mat-tree-node *matTreeNodeDef="let node;when: newNode" matTreeNodePadding>
+            <button mat-icon-button>
+              <mat-icon>fiber_new</mat-icon>
+            </button>
+            <mat-form-field>
+              <mat-label>Title</mat-label>
+              <input matInput (blur)="onNewFolderSave($event, node)">
+            </mat-form-field>
+          </mat-tree-node>
+
+        </mat-tree>
+        <button mat-flat-button color="primary" (click)="drawer.toggle()">Close</button>
+      </div>
+    </mat-drawer>
+
+      <div class="content">
+        <div *ngIf="content == null">
+          <span class="mat-headline">No post selected</span>
+          <div>
+            <button mat-stroked-button color="primary" (click)="drawer.toggle()">Select</button>
+            <button mat-flat-button color="primary" routerLink="/blog/builder">Create</button>
+          </div>
+        </div>
+        <div class="post-preview" *ngIf="content != null">
+          <markdown id="md" emoji  lineNumbers lineHighlight [data]="content">
+          </markdown>
+          <div>
+            <button mat-stroked-button color="primary" (click)="drawer.toggle()">Open menu</button>
+            <button mat-flat-button color="primary" [routerLink]="'/blog/builder/' +  selectedId">Edit</button>
+          </div>
+        </div>
+
+      </div>
+  </mat-drawer-container>
+</div>
+
+

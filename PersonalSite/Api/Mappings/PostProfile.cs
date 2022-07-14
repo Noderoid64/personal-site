@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using PersonalSite.Api.Dtos;
-using PersonalSite.Core.Entities;
+using PersonalSite.Core.Models.Entities;
 
 namespace PersonalSite.Api.Mappings;
 
@@ -8,8 +8,19 @@ public class PostProfile : Profile
 {
     public PostProfile()
     {
-        CreateMap<PostEntity, PostDto>()
-            .ReverseMap()
-            .ForMember(x => x.Profile, y => y.Ignore());
+        CreateMap<PostDto, FileObjectEntity>()
+            .ForMember(x => x.Content, y => y.MapFrom(z => z.Content))
+            .ForMember(x => x.PostAccessType, y => y.MapFrom(z => z.AccessType))
+            .ForMember(x => x.Title, y => y.MapFrom(z => z.Title))
+            .ForMember(x => x.CreatedAt, y => y.Ignore())
+            .ForMember(x => x.EditedAt, y => y.Ignore())
+            .ForMember(x => x.FileObjectType, y => y.Ignore())
+            .ForMember(x => x.ProfileId, y => y.Ignore())
+            .ForMember(x => x.Profile, y => y.Ignore())
+            .ForMember(x => x.ParentId, y => y.Ignore())
+            .ForMember(x => x.Parent, y => y.Ignore())
+            .ReverseMap();
+
+
     }
 }

@@ -1,4 +1,4 @@
-﻿using PersonalSite.Core.Entities;
+﻿using PersonalSite.Core.Models.Entities;
 using PersonalSite.Infrastructure.Common.Models;
 using PersonalSite.Services.Auth.Models;
 

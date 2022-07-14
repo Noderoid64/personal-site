@@ -11,7 +11,7 @@ import {SettingsDialogComponent} from "../../components/settings-dialog/settings
   templateUrl: './blog-builder-page.component.html',
   styleUrls: ['./blog-builder-page.component.scss']
 })
-export class BlogBuilderPageComponent implements OnInit{
+export class BlogBuilderPageComponent implements OnInit {
 
   public sourceControl = new FormControl<string>('');
   public isViewMode = false;
@@ -30,16 +30,19 @@ export class BlogBuilderPageComponent implements OnInit{
   ngOnInit() {
     this.route.paramMap
       .subscribe(params => {
-        const id = +(params.get('id') ?? -1);
-        if (id != -1) {
-          this.postApi.GetPostById(id).subscribe(console.log);
-        }
-          console.log(params);
+          const id = +(params.get('id') ?? -1);
+          if (id != -1) {
+            this.postApi.GetPostById(id).subscribe(x => {
+              this.post = x;
+              this.sourceControl.setValue(this.post.content);
+              setTimeout(() => this.updateSourceHeight(this.sourceTextArea?.nativeElement), 10);
+            });
+          }
         }
       );
   }
 
-  public handleKeydown(event:any) {
+  public handleKeydown(event: any) {
     if (event.key == 'Tab') {
       event.preventDefault();
       const start = event.target.selectionStart;
@@ -59,8 +62,8 @@ export class BlogBuilderPageComponent implements OnInit{
   }
 
   public onViewModeChange(value: boolean) {
-   this.isViewMode = value;
-   setTimeout(() => this.updateSourceHeight(this.sourceTextArea?.nativeElement), 10);
+    this.isViewMode = value;
+    setTimeout(() => this.updateSourceHeight(this.sourceTextArea?.nativeElement), 10);
   }
 
   public onHorizontalLine(): void {
@@ -89,7 +92,7 @@ export class BlogBuilderPageComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (this.post) {
+      if (this.post && result) {
         this.post.accessType = result.accessType;
         this.post.title = result.title;
       }
@@ -97,15 +100,15 @@ export class BlogBuilderPageComponent implements OnInit{
   }
 
   public onSave(): void {
-    console.log(this.post);
-    if(!this.post?.title || !this.post?.accessType) {
+    if (!this.post?.title || this.post?.accessType == undefined) {
       this.onSettings();
     } else {
+      this.post.content = this.sourceControl.value ?? '';
       this.postApi.SavePost(this.post).subscribe(console.log);
     }
   }
 
-  private updateSourceHeight (target: any) {
+  private updateSourceHeight(target: any) {
     if (target) {
       this.selectionStart = target.selectionStart;
       target.style.height = "";

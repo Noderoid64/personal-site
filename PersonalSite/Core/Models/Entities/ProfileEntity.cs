@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PersonalSite.Core.Entities;
+namespace PersonalSite.Core.Models.Entities;
 
 public class ProfileEntity
 {
@@ -13,5 +14,5 @@ public class ProfileEntity
     
     public virtual ProfileCredentialsEntity ProfileCredentials { get; set; }
     public virtual GoogleProfileEntity? GoogleProfileEntity { get; set; }
-    public virtual List<PostEntity> Posts { get; set; }
+    public virtual List<FileObjectEntity> Posts { get; set; }
 }

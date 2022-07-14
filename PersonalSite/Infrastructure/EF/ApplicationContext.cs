@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PersonalSite.Core.Entities;
+using PersonalSite.Core.Models.Entities;
 
 namespace PersonalSite.Infrastructure.EF;
 
@@ -10,7 +10,7 @@ public class ApplicationContext: DbContext
     public DbSet<ProfileEntity> Profiles { get; set; }
     public DbSet<ProfileCredentialsEntity> ProfileCredentials { get; set; }
     public DbSet<GoogleProfileEntity> GoogleProfiles { get; set; }
-    public DbSet<PostEntity> Posts { get; set; }
+    public DbSet<FileObjectEntity> Posts { get; set; }
 
     public ApplicationContext(IConfiguration config)
     {

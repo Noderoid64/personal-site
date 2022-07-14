@@ -12,6 +12,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSelectModule} from "@angular/material/select";
+import {MatTreeModule} from "@angular/material/tree";
+import {MatSidenavModule} from "@angular/material/sidenav";
 
 @NgModule({
   exports: [
@@ -27,7 +29,9 @@ import {MatSelectModule} from "@angular/material/select";
     MatTooltipModule,
     MatSlideToggleModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTreeModule,
+    MatSidenavModule
   ],
 })
 export class MaterialModule {

@@ -10,5 +10,6 @@ public static class BlogExtension
     {
         container.Register<PostMerger>();
         container.Register<PostWorkflow>();
+        container.Register<FileObjectBuilder>();
     }
 }

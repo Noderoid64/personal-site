@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using PersonalSite.Api.Dtos;
-using PersonalSite.Core.Entities;
+using PersonalSite.Core.Models.Entities;
 
 namespace PersonalSite.Api.Mappings;
 

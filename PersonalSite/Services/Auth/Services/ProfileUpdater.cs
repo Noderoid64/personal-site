@@ -1,11 +1,25 @@
-﻿using PersonalSite.Core.Entities;
+﻿using PersonalSite.Core.Models.Entities;
+using PersonalSite.Core.Models.Entities.Enums;
 using PersonalSite.Services.Auth.Models;
 
 namespace PersonalSite.Services.Auth.Services;
 
 public class ProfileUpdater
 {
-    public ProfileEntity CreateNewOne(GoogleProfile gProfile)
+    public ProfileEntity CreateNewOne(string nickname, string email, string password)
+    {
+        return new ProfileEntity()
+        {
+            Nickname = nickname,
+            ProfileCredentials = new ProfileCredentialsEntity()
+            {
+                Email = email,
+                Password = password
+            },
+            Posts = new List<FileObjectEntity>() {CreateRoot()}
+        };
+    }
+    public ProfileEntity CreateNewOneFromGoogle(GoogleProfile gProfile)
     {
         return new ProfileEntity()
         {
@@ -15,7 +29,8 @@ public class ProfileUpdater
             GoogleProfileEntity = new GoogleProfileEntity()
             {
                 SourceId = gProfile.SourceId,
-            }
+            },
+            Posts = new List<FileObjectEntity>() {CreateRoot()}
         };
     }
 
@@ -33,5 +48,14 @@ public class ProfileUpdater
         }
 
         return profile;
+    }
+
+    private FileObjectEntity CreateRoot()
+    {
+        return new FileObjectEntity()
+        {
+            Title = "Root",
+            FileObjectType = FileObjectType.Folder
+        };
     }
 }

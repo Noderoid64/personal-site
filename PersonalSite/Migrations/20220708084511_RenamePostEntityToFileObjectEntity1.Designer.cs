@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PersonalSite.Infrastructure.EF;
@@ -11,9 +12,10 @@ using PersonalSite.Infrastructure.EF;
 namespace PersonalSite.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220708084511_RenamePostEntityToFileObjectEntity1")]
+    partial class RenamePostEntityToFileObjectEntity1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +24,7 @@ namespace PersonalSite.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("PersonalSite.Core.Models.Entities.FileObjectEntity", b =>
+            modelBuilder.Entity("PersonalSite.Core.Entities.FileObjectEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -31,6 +33,7 @@ namespace PersonalSite.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
@@ -64,7 +67,7 @@ namespace PersonalSite.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("PersonalSite.Core.Models.Entities.GoogleProfileEntity", b =>
+            modelBuilder.Entity("PersonalSite.Core.Entities.GoogleProfileEntity", b =>
                 {
                     b.Property<string>("SourceId")
                         .HasColumnType("text");
@@ -80,7 +83,7 @@ namespace PersonalSite.Migrations
                     b.ToTable("GoogleProfiles");
                 });
 
-            modelBuilder.Entity("PersonalSite.Core.Models.Entities.ProfileCredentialsEntity", b =>
+            modelBuilder.Entity("PersonalSite.Core.Entities.ProfileCredentialsEntity", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -110,7 +113,7 @@ namespace PersonalSite.Migrations
                     b.ToTable("ProfileCredentials");
                 });
 
-            modelBuilder.Entity("PersonalSite.Core.Models.Entities.ProfileEntity", b =>
+            modelBuilder.Entity("PersonalSite.Core.Entities.ProfileEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -135,13 +138,13 @@ namespace PersonalSite.Migrations
                     b.ToTable("Profiles");
                 });
 
-            modelBuilder.Entity("PersonalSite.Core.Models.Entities.FileObjectEntity", b =>
+            modelBuilder.Entity("PersonalSite.Core.Entities.FileObjectEntity", b =>
                 {
-                    b.HasOne("PersonalSite.Core.Models.Entities.FileObjectEntity", "Parent")
+                    b.HasOne("PersonalSite.Core.Entities.FileObjectEntity", "Parent")
                         .WithMany()
                         .HasForeignKey("ParentId");
 
-                    b.HasOne("PersonalSite.Core.Models.Entities.ProfileEntity", "Profile")
+                    b.HasOne("PersonalSite.Core.Entities.ProfileEntity", "Profile")
                         .WithMany("Posts")
                         .HasForeignKey("ProfileId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -152,29 +155,29 @@ namespace PersonalSite.Migrations
                     b.Navigation("Profile");
                 });
 
-            modelBuilder.Entity("PersonalSite.Core.Models.Entities.GoogleProfileEntity", b =>
+            modelBuilder.Entity("PersonalSite.Core.Entities.GoogleProfileEntity", b =>
                 {
-                    b.HasOne("PersonalSite.Core.Models.Entities.ProfileEntity", "ProfileEntity")
+                    b.HasOne("PersonalSite.Core.Entities.ProfileEntity", "ProfileEntity")
                         .WithOne("GoogleProfileEntity")
-                        .HasForeignKey("PersonalSite.Core.Models.Entities.GoogleProfileEntity", "ProfileEntityId")
+                        .HasForeignKey("PersonalSite.Core.Entities.GoogleProfileEntity", "ProfileEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ProfileEntity");
                 });
 
-            modelBuilder.Entity("PersonalSite.Core.Models.Entities.ProfileCredentialsEntity", b =>
+            modelBuilder.Entity("PersonalSite.Core.Entities.ProfileCredentialsEntity", b =>
                 {
-                    b.HasOne("PersonalSite.Core.Models.Entities.ProfileEntity", "Profile")
+                    b.HasOne("PersonalSite.Core.Entities.ProfileEntity", "Profile")
                         .WithOne("ProfileCredentials")
-                        .HasForeignKey("PersonalSite.Core.Models.Entities.ProfileCredentialsEntity", "UserId")
+                        .HasForeignKey("PersonalSite.Core.Entities.ProfileCredentialsEntity", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Profile");
                 });
 
-            modelBuilder.Entity("PersonalSite.Core.Models.Entities.ProfileEntity", b =>
+            modelBuilder.Entity("PersonalSite.Core.Entities.ProfileEntity", b =>
                 {
                     b.Navigation("GoogleProfileEntity");
 

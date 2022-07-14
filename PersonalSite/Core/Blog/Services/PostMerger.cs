@@ -1,10 +1,10 @@
-﻿using PersonalSite.Core.Entities;
+﻿using PersonalSite.Core.Models.Entities;
 
 namespace PersonalSite.Core.Blog.Services;
 
 public class PostMerger
 {
-    public PostEntity Merge(PostEntity oldOne, PostEntity newOne)
+    public FileObjectEntity Merge(FileObjectEntity oldOne, FileObjectEntity newOne)
     {
         ArgumentNullException.ThrowIfNull(oldOne);
         ArgumentNullException.ThrowIfNull(newOne);

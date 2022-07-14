@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PersonalSite.Core.Entities;
+using PersonalSite.Core.Models.Entities;
+using PersonalSite.Core.Models.Entities.Enums;
 using PersonalSite.Infrastructure.Common.Models;
 using PersonalSite.Infrastructure.EF;
 using PersonalSite.Services.Auth.Models;
@@ -49,17 +50,10 @@ public class AuthFacade : IAuthFacade
             return Result<ProfileEntity>.Fail($"The account already exists");
         }
 
-        var profile = new ProfileEntity()
-        {
-            Nickname = nickname,
-            ProfileCredentials = new ProfileCredentialsEntity()
-            {
-                Email = email,
-                Password = password
-            }
-        };
-
+        var profile = _profileUpdater.CreateNewOne(nickname, email, password);
+        
         _context.Profiles.Add(profile);
+        
         await _context.SaveChangesAsync();
         return Result<ProfileEntity>.Success(profile);
     }
@@ -101,7 +95,7 @@ public class AuthFacade : IAuthFacade
         
         if (profile == null)
         {
-            profile = _profileUpdater.CreateNewOne(gProfile);
+            profile = _profileUpdater.CreateNewOneFromGoogle(gProfile);
             _context.Profiles.Add(profile);
         }
         else

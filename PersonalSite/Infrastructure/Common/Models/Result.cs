@@ -1,6 +1,4 @@
-﻿using PersonalSite.Core.Entities;
-
-namespace PersonalSite.Infrastructure.Common.Models;
+﻿namespace PersonalSite.Infrastructure.Common.Models;
 
 public class Result<T>
 {

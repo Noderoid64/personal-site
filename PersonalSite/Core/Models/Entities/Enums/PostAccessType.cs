@@ -1,4 +1,4 @@
-﻿namespace PersonalSite.Core.Entities;
+﻿namespace PersonalSite.Core.Models.Entities.Enums;
 
 public enum PostAccessType
 {

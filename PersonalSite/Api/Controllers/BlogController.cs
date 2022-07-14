@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PersonalSite.Api.Dtos;
 using PersonalSite.Core.Blog;
-using PersonalSite.Core.Entities;
+using PersonalSite.Core.Blog.Models;
+using PersonalSite.Core.Models.Entities;
 
 namespace PersonalSite.Api.Controllers;
 
@@ -20,14 +21,13 @@ public class BlogController : ApiController
         _postWorkflow = postWorkflow;
         _mapper = mapper;
     }
-    
+
     [HttpGet("all")]
-    public async Task<List<PostDto>> GetMyPosts()
+    public async Task<FileObject> GetMyPosts()
     {
         var userId = GetUserId();
-        List<PostEntity> posts = await _postWorkflow.GetUserPostsAsync(userId);
-        var result = _mapper.Map<List<PostDto>>(posts);
-        return result;
+        var a = await _postWorkflow.GetUserPostsAsync(userId);
+        return a;
     }
 
     [HttpGet("{id}")]
@@ -36,7 +36,7 @@ public class BlogController : ApiController
         var userId = GetUserId();
         var post = await _postWorkflow.GetPostAsync(userId, id);
         if(post.IsSuccess)
-            return Ok(_mapper.Map<PostDto>(post));
+            return Ok(_mapper.Map<PostDto>(post.Value));
         return BadRequest(post.ErrorMessage);
     }
 
@@ -44,8 +44,24 @@ public class BlogController : ApiController
     public async Task<IActionResult> PostPost(PostDto postDto)
     {
         var profileId = GetUserId();
-        var post = _mapper.Map<PostEntity>(postDto);
+        var post = _mapper.Map<FileObjectEntity>(postDto);
         await _postWorkflow.SavePost(profileId, post);
+        return Ok();
+    }
+
+    [HttpPost("folders/new")]
+    public async Task<IActionResult> CreateFolder(string title, int parentId)
+    {
+        var profileId = GetUserId();
+        await _postWorkflow.SaveFolderAsync(profileId, title, parentId);
+        return Ok();
+    }
+    
+    [HttpDelete()]
+    public async Task<IActionResult> DeleteFile(int fileId)
+    {
+        var profileId = GetUserId();
+        await _postWorkflow.DeleteFileAsync(profileId, fileId);
         return Ok();
     }
     

@@ -22,6 +22,7 @@
 
     <ItemGroup>
       <Folder Include="Api\Validators" />
+      <Folder Include="Core\Models" />
     </ItemGroup>
 
 </Project>

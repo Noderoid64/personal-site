@@ -1,5 +1,7 @@
-﻿using PersonalSite.Core.Blog.Services;
-using PersonalSite.Core.Entities;
+﻿using PersonalSite.Core.Blog.Models;
+using PersonalSite.Core.Blog.Services;
+using PersonalSite.Core.Models.Entities;
+using PersonalSite.Core.Models.Entities.Enums;
 using PersonalSite.Core.Ports;
 using PersonalSite.Infrastructure.Common.Models;
 
@@ -9,58 +11,94 @@ public class PostWorkflow
 {
     private readonly IPostProvider _postProvider;
     private readonly IProfileProvider _profileProvider;
+    private readonly FileObjectBuilder _fileObjectBuilder;
 
     private readonly PostMerger _postMerger;
 
-    public PostWorkflow(IPostProvider postProvider, IProfileProvider profileProvider, PostMerger postMerger)
+    public PostWorkflow(IPostProvider postProvider, IProfileProvider profileProvider, PostMerger postMerger, FileObjectBuilder fileObjectBuilder)
     {
         _postProvider = postProvider;
         _profileProvider = profileProvider;
         _postMerger = postMerger;
+        _fileObjectBuilder = fileObjectBuilder;
     }
 
-    public async Task<Result<PostEntity>> GetPostAsync(int userId, int postId)
+    public async Task<Result<FileObjectEntity>> GetPostAsync(int userId, int postId)
     {
         var user = await _profileProvider.GetProfileWithPostsAsync(userId);
         ArgumentNullException.ThrowIfNull(user);
         
         var post = user.Posts.FirstOrDefault(x => x.Id == postId);
         if (post == null)
-            return Result<PostEntity>.Fail($"This user does not have post with id: {postId}");
-        return Result<PostEntity>.Success(post);
+            return Result<FileObjectEntity>.Fail($"This user does not have post with id: {postId}");
+        return Result<FileObjectEntity>.Success(post);
     }
     
-    public Task<List<PostEntity>> GetUserPostsAsync(int userId)
+    public async Task<FileObject> GetUserPostsAsync(int userId)
     {
-        return _postProvider.GetPostsByProfileIdAsync(userId);
+        var entities = await _postProvider.GetPostsByProfileIdAsync(userId);
+        return _fileObjectBuilder.Build(entities);
     }
 
-    public async Task SavePost(int profileId, PostEntity post)
+    public async Task SavePost(int profileId, FileObjectEntity fileObject)
     {
         var profile = await _profileProvider.GetProfileAsync(profileId);
         
-        ArgumentNullException.ThrowIfNull(profile);
-        
-        if (post.Id != default)
+        if (fileObject.IsNew())
         {
-            var existed = await _postProvider.GetPostAsync(post.Id);
-            ArgumentNullException.ThrowIfNull(existed);
-            _postMerger.Merge(existed, post);
+            var postToSave = CreateNewPost(fileObject, profile.Id);
+            _postProvider.SaveFileObject(postToSave);
         }
         else
         {
-            var postToSave = new PostEntity()
-            {
-                Content = post.Content,
-                ProfileId = profile.Id,
-                CreatedAt = DateTime.UtcNow,
-                EditedAt = DateTime.UtcNow,
-                Title = post.Title,
-                PostAccessType = post.PostAccessType
-            };
-            _postProvider.SavePost(postToSave);
+            var existed = await _postProvider.GetFileObjectAsync(fileObject.Id);
+            _postMerger.Merge(existed, fileObject);
         }
         
         await _postProvider.SaveAsync();
+    }
+
+    public async Task SaveFolderAsync(int profileId, string title, int parentId)
+    {
+        var profile = await _profileProvider.GetProfileAsync(profileId);
+        var folder = CreateNewFolder(profile.Id, title, parentId);
+        _postProvider.SaveFileObject(folder);
+        await _postProvider.SaveAsync();
+    }
+
+    public async Task DeleteFileAsync(int profileId, int fileId)
+    {
+        var profile = await _profileProvider.GetProfileAsync(profileId);
+        var postToDelete = await _postProvider.GetFileObjectAsync(fileId);
+        if (profile.Id != profileId)
+            return;
+        await _postProvider.DeleteFileObjectAsync(postToDelete);
+        await _postProvider.SaveAsync();
+    }
+
+    private FileObjectEntity CreateNewFolder(int profileId, string title, int parentId)
+    {
+        return new FileObjectEntity()
+        {
+            Title = title,
+            ParentId = parentId,
+            ProfileId = profileId,
+            CreatedAt = DateTime.UtcNow,
+            EditedAt = DateTime.UtcNow,
+            FileObjectType = FileObjectType.Folder
+        };
+    }
+
+    private FileObjectEntity CreateNewPost(FileObjectEntity fileObject, int profileId)
+    {
+        return new FileObjectEntity()
+        {
+            Content = fileObject.Content,
+            ProfileId = profileId,
+            CreatedAt = DateTime.UtcNow,
+            EditedAt = DateTime.UtcNow,
+            Title = fileObject.Title,
+            PostAccessType = fileObject.PostAccessType
+        };
     }
 }

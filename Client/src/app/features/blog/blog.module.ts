@@ -11,6 +11,7 @@ import {BlogMainPageComponent} from './pages/blog-main-page/blog-main-page.compo
 import {PostApiService} from "./services/post-api.service";
 import { ViewModeComponent } from './pages/blog-builder-page/view-mode/view-mode.component';
 import { SettingsDialogComponent } from './components/settings-dialog/settings-dialog.component';
+import { BlogMyPostsPageComponent } from './pages/blog-my-posts-page/blog-my-posts-page.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,9 @@ const routes: Routes = [
   }, {
     path: "builder",
     component: BlogBuilderPageComponent
+  }, {
+    path: "my",
+    component: BlogMyPostsPageComponent
   },
   {
     path: "**",
@@ -33,7 +37,8 @@ const routes: Routes = [
     HorizontalLineComponent,
     BlogMainPageComponent,
     ViewModeComponent,
-    SettingsDialogComponent
+    SettingsDialogComponent,
+    BlogMyPostsPageComponent
   ],
   imports: [
     CommonModule,

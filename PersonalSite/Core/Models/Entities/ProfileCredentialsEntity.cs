@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PersonalSite.Core.Entities;
+namespace PersonalSite.Core.Models.Entities;
 
 public class ProfileCredentialsEntity
 {
