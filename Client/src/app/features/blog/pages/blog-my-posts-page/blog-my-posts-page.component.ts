@@ -9,6 +9,7 @@ import {
 } from './helpers/tree.helper';
 import {PostApiService} from "../../services/post-api.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-blog-my-posts-page',
@@ -25,11 +26,17 @@ export class BlogMyPostsPageComponent {
   public newNode = newNode;
   private rawData: any;
 
-  constructor(private postApi: PostApiService, private snackBar: MatSnackBar) {
+  constructor(private postApi: PostApiService, private snackBar: MatSnackBar, private router: Router) {
     postApi.GetPostsByProfileId().subscribe(x => {
       this.rawData = x;
       this.dataSource.data = [this.rawData];
     })
+  }
+
+  public onNewPost(node: FlatFileObjectNode): void {
+    this.router.navigate(['/blog/builder'], {queryParams: {
+      parentId: node.id
+      }});
   }
 
   public onNewFolder(node: FlatFileObjectNode): void {

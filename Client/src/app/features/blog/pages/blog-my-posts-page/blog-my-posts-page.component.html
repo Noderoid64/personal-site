@@ -31,7 +31,7 @@
             </button>
             <mat-menu #folderMenu="matMenu">
               <button mat-menu-item (click)="onNewFolder(node)">New folder</button>
-              <button mat-menu-item>New post</button>
+              <button mat-menu-item (click)="onNewPost(node)" >New post</button>
               <button mat-menu-item (click)="onFolderDelete(node)">Delete folder</button>
             </mat-menu>
           </mat-tree-node>

@@ -46,7 +46,8 @@ public class PostWorkflow
         
         if (fileObject.IsNew())
         {
-            var postToSave = CreateNewPost(fileObject, profile.Id);
+            int parentId = await FindParent(fileObject, profileId);
+            var postToSave = CreateNewPost(fileObject, profile.Id, parentId);
             _postProvider.SaveFileObject(postToSave);
         }
         else
@@ -90,7 +91,14 @@ public class PostWorkflow
         };
     }
 
-    private FileObjectEntity CreateNewPost(FileObjectEntity fileObject, int profileId)
+    private async Task<int> FindParent(FileObjectEntity fileObject, int profileId)
+    {
+        return fileObject.HasNoParent()
+            ? (await _postProvider.GetFileObjectRootAsync(profileId)).Id
+            : fileObject.ParentId.Value;
+    }
+
+    private FileObjectEntity CreateNewPost(FileObjectEntity fileObject, int profileId, int parentId)
     {
         return new FileObjectEntity()
         {
@@ -99,7 +107,8 @@ public class PostWorkflow
             CreatedAt = DateTime.UtcNow,
             EditedAt = DateTime.UtcNow,
             Title = fileObject.Title,
-            PostAccessType = fileObject.PostAccessType
+            PostAccessType = fileObject.PostAccessType,
+            ParentId = parentId
         };
     }
 }

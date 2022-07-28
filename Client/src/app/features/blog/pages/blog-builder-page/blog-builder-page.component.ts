@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {Post} from "../../models/post";
-import {ActivatedRoute, RouterStateSnapshot} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {PostApiService} from "../../services/post-api.service";
 import {MatDialog} from "@angular/material/dialog";
 import {SettingsDialogComponent} from "../../components/settings-dialog/settings-dialog.component";
@@ -28,9 +28,19 @@ export class BlogBuilderPageComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      const parentId = +(params['parentId'] ?? -1);
+      if (parentId != -1) {
+        this.post.parentId = parentId;
+      }
+    })
     this.route.paramMap
       .subscribe(params => {
           const id = +(params.get('id') ?? -1);
+          const parentId = +(params.get('parentId') ?? -1);
+          if (parentId != -1) {
+            this.post.parentId = parentId;
+          }
           if (id != -1) {
             this.postApi.GetPostById(id).subscribe(x => {
               this.post = x;
