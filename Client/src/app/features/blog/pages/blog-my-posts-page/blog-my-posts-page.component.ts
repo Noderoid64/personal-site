@@ -8,6 +8,7 @@ import {
   FlatFileObjectNode
 } from './helpers/tree.helper';
 import {PostApiService} from "../../services/post-api.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-blog-my-posts-page',
@@ -24,7 +25,7 @@ export class BlogMyPostsPageComponent {
   public newNode = newNode;
   private rawData: any;
 
-  constructor(private postApi: PostApiService) {
+  constructor(private postApi: PostApiService, private snackBar: MatSnackBar) {
     postApi.GetPostsByProfileId().subscribe(x => {
       this.rawData = x;
       this.dataSource.data = [this.rawData];
@@ -67,16 +68,21 @@ export class BlogMyPostsPageComponent {
   }
 
   public onFolderDelete(flatNode: FlatFileObjectNode): void {
-    this.postApi.DeleteFile(flatNode.id!).subscribe(() => {
-      const node = getNode(flatNode)!;
-      let toExpand = this.treeControl.dataNodes.find(x => x.id == node!.parentId);
-      const removableParent = getNode(toExpand!);
-      if (removableParent?.children) {
-        removableParent.children = removableParent.children?.filter(x => x.id !== node.id);
-      }
-      this.dataSource.data = [this.rawData];
-      this.expand(node.parentId!);
-    });
+    const node = getNode(flatNode);
+    if (node?.children?.length == 0 ) {
+      this.postApi.DeleteFile(flatNode.id!).subscribe(() => {
+        const node = getNode(flatNode)!;
+        let toExpand = this.treeControl.dataNodes.find(x => x.id == node!.parentId);
+        const removableParent = getNode(toExpand!);
+        if (removableParent?.children) {
+          removableParent.children = removableParent.children?.filter(x => x.id !== node.id);
+        }
+        this.dataSource.data = [this.rawData];
+        this.expand(node.parentId!);
+      });
+    } else {
+      this.snackBar.open("Could not delete the folder: please remove internal items", "Ok")
+    }
   }
 
   public onPostClick(nodeId: number): void {
