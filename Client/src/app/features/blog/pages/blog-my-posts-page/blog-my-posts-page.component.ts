@@ -5,7 +5,6 @@ import {
   hasChild,
   newNode,
   getNode,
-  getFlatNode,
   FlatFileObjectNode
 } from './helpers/tree.helper';
 import {PostApiService} from "../../services/post-api.service";
@@ -40,7 +39,14 @@ export class BlogMyPostsPageComponent {
     };
     rawNode.children?.push(newFolder);
     this.dataSource.data = [this.rawData];
-    const toExpand = this.treeControl.dataNodes.find(x => x.id == node.id);
+    this.expand(node.id!);
+  }
+
+  private expand(nodeId: number): void {
+    const toExpand = this.treeControl.dataNodes.find(x => x.id == nodeId);
+    if (toExpand && toExpand.parentId !== 0) {
+      this.expand(toExpand.parentId)
+    }
     this.treeControl.expand(toExpand!);
   }
 
@@ -48,21 +54,28 @@ export class BlogMyPostsPageComponent {
     if ($event.target.value && $event.target.value != '') {
       const node = getNode(flatNode)!;
       this.postApi.CreateNewFolder(node.parentId!, $event.target.value).subscribe(x => {
-        flatNode.isFolder = true;
-        flatNode.title = $event.target.value;
-        this.dataSource.data = [this.rawData];
-        const toExpand = this.treeControl.dataNodes.find(x => x.id == flatNode.id);
-        this.treeControl.expand(toExpand!);
+        const node = getNode(flatNode);
+        if (node) {
+          node.title = $event.target.value;
+          node.id = x;
+          node.children = [];
+          this.dataSource.data = [this.rawData];
+          this.expand(node.id!);
+        }
       });
     }
   }
 
   public onFolderDelete(flatNode: FlatFileObjectNode): void {
-    this.postApi.DeleteFile(flatNode.id!).subscribe(x => {
+    this.postApi.DeleteFile(flatNode.id!).subscribe(() => {
       const node = getNode(flatNode)!;
+      let toExpand = this.treeControl.dataNodes.find(x => x.id == node!.parentId);
+      const removableParent = getNode(toExpand!);
+      if (removableParent?.children) {
+        removableParent.children = removableParent.children?.filter(x => x.id !== node.id);
+      }
       this.dataSource.data = [this.rawData];
-      const toExpand = this.treeControl.dataNodes.find(x => x.id == node!.parentId);
-      this.treeControl.expand(toExpand!);
+      this.expand(node.parentId!);
     });
   }
 

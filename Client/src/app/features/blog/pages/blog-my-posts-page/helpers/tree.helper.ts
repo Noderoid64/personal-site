@@ -6,7 +6,7 @@ export interface FileObjectNode {
   title?: string,
   isFolder?: boolean,
   parentId?: number,
-  children?: [FileObjectNode]
+  children?: FileObjectNode[]
 }
 
 export interface FlatFileObjectNode {
@@ -15,6 +15,7 @@ export interface FlatFileObjectNode {
   level: number;
   expandable: boolean;
   isFolder?: boolean;
+  parentId: number;
 }
 
 const nodeMapDirect = new Map<FileObjectNode, FlatFileObjectNode>();
@@ -26,7 +27,8 @@ const transformer = (node: FileObjectNode, level: number): FlatFileObjectNode =>
     level: level,
     expandable: !!node.isFolder && !!node.title,
     isFolder: node.isFolder,
-    id: node.id
+    id: node.id,
+    parentId: node.parentId ?? 0
   };
   nodeMapDirect.set(node, flat);
   nodeMapBack.set(flat, node);

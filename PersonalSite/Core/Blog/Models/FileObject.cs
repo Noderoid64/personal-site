@@ -8,7 +8,7 @@ public class FileObject
     public int Id { get; set; }
     public bool IsFolder { get; set; }
     public string Title { get; set; }
-    public FileObject? Parent { get; set; }
+    public int ParentId { get; set; }
     public List<FileObject> Children { get; set; }
     
     public FileObject(FileObjectEntity entity)
@@ -17,5 +17,6 @@ public class FileObject
         IsFolder = entity.FileObjectType == FileObjectType.Folder;
         Title = entity.Title;
         Children = new List<FileObject>();
+        ParentId = entity.ParentId ?? default;
     }
 }

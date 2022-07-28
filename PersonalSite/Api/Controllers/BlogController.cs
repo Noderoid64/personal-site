@@ -53,8 +53,8 @@ public class BlogController : ApiController
     public async Task<IActionResult> CreateFolder(string title, int parentId)
     {
         var profileId = GetUserId();
-        await _postWorkflow.SaveFolderAsync(profileId, title, parentId);
-        return Ok();
+        var result = await _postWorkflow.SaveFolderAsync(profileId, title, parentId);
+        return result.IsSuccess ? Ok(result.Value) : BadRequest(result.ErrorMessage);
     }
     
     [HttpDelete()]

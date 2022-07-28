@@ -58,12 +58,13 @@ public class PostWorkflow
         await _postProvider.SaveAsync();
     }
 
-    public async Task SaveFolderAsync(int profileId, string title, int parentId)
+    public async Task<Result<int>> SaveFolderAsync(int profileId, string title, int parentId)
     {
         var profile = await _profileProvider.GetProfileAsync(profileId);
         var folder = CreateNewFolder(profile.Id, title, parentId);
         _postProvider.SaveFileObject(folder);
         await _postProvider.SaveAsync();
+        return Result<int>.Success(folder.Id);
     }
 
     public async Task DeleteFileAsync(int profileId, int fileId)
