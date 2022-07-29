@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PersonalSite.Infrastructure.EF;
@@ -11,9 +12,10 @@ using PersonalSite.Infrastructure.EF;
 namespace PersonalSite.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220728133824_addRefreshToken1")]
+    partial class addRefreshToken1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,6 +74,13 @@ namespace PersonalSite.Migrations
                     b.Property<int>("ProfileEntityId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("RefreshToken")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("RefreshTokenValidDateTime")
+                        .HasColumnType("timestamp without time zone");
+
                     b.HasKey("SourceId");
 
                     b.HasIndex("ProfileEntityId")
@@ -98,6 +107,13 @@ namespace PersonalSite.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("RefreshToken")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("RefreshTokenValidDateTime")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -129,12 +145,6 @@ namespace PersonalSite.Migrations
 
                     b.Property<string>("ProfilePicture")
                         .HasColumnType("text");
-
-                    b.Property<string>("RefreshToken")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("RefreshTokenExpireOn")
-                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 

@@ -9,4 +9,5 @@ public interface IAuthFacade
     Task<Result<ProfileEntity>> RegisterAsync(string email, string password, string nickname);
     Task<Result<AuthInfo>> AuthorizeAsync(string email, string password);
     Task<Result<AuthInfo>> AuthorizeByGoogleAsync(string authCode);
+    Task<Result<AuthInfo>> RefreshToken(string refreshToken, int profileId);
 }

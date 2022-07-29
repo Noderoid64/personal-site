@@ -15,6 +15,11 @@ public class PostProvider : _BaseProvider, IPostProvider
         return await _context.Posts.FirstAsync(x => x.Id.Equals(postId));
     }
 
+    public async Task<FileObjectEntity> GetFileObjectRootAsync(int profileId)
+    {
+        return await _context.Posts.FirstAsync(x => x.ProfileId == profileId && x.ParentId == null);
+    }
+
     public async Task<List<FileObjectEntity>> GetPostsByProfileIdAsync(int profileId)
     {
         return await _context.Posts

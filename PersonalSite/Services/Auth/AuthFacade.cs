@@ -70,8 +70,13 @@ public class AuthFacade : IAuthFacade
             return Result<AuthInfo>.Fail($"Login failed: try different credentials");
 
         var token = _tokenGenerator.Generate(_authConfig.PrivateKey, creds.Profile.Id);
+        
+        creds.Profile.RefreshToken = _tokenGenerator.GenerateRefreshToken();
+        creds.Profile.RefreshTokenExpireOn = DateTime.Now.AddHours(_authConfig.RefreshTokenHoursValidity);
 
-        return Result<AuthInfo>.Success(new AuthInfo(creds.Profile, token));
+        await _context.SaveChangesAsync();
+
+        return Result<AuthInfo>.Success(new AuthInfo(creds.Profile, token, creds.Profile.RefreshToken));
     }
 
     public async Task<Result<AuthInfo>> AuthorizeByGoogleAsync(string authCode)
@@ -103,9 +108,36 @@ public class AuthFacade : IAuthFacade
             profile = _profileUpdater.UpdateProfile(profile, gProfile);
             _context.Profiles.Update(profile);
         }
+        
+        profile.RefreshToken = _tokenGenerator.GenerateRefreshToken();
+        profile.RefreshTokenExpireOn = DateTime.Now.AddHours(_authConfig.RefreshTokenHoursValidity);
 
         await _context.SaveChangesAsync();
         var token = _tokenGenerator.Generate(_authConfig.PrivateKey, profile.Id);
-        return Result<AuthInfo>.Success(new AuthInfo(profile, token));
+        return Result<AuthInfo>.Success(new AuthInfo(profile, token, profile.RefreshToken));
+    }
+
+    public async Task<Result<AuthInfo>> RefreshToken(string refreshToken, int profileId)
+    {
+        var profile = await _context.Profiles.FirstAsync(x => x.Id == profileId);
+        
+        if (profile.RefreshToken == null || profile.RefreshTokenExpireOn == null)
+            return Result<AuthInfo>.Fail("Refresh token is not valid");
+        
+        if (!string.Equals(profile.RefreshToken, refreshToken))
+            return Result<AuthInfo>.Fail("Refresh token does not match");
+
+        if (DateTime.Compare(profile.RefreshTokenExpireOn.Value, DateTime.Now) == 1)
+            return Result<AuthInfo>.Fail("Refresh token is expired");
+        
+        var token = _tokenGenerator.Generate(_authConfig.PrivateKey, profile.Id);
+        var newRefreshToken = _tokenGenerator.GenerateRefreshToken();
+
+        profile.RefreshToken = newRefreshToken;
+        profile.RefreshTokenExpireOn = new DateTime();
+
+        await _context.SaveChangesAsync();
+
+        return Result<AuthInfo>.Success(new AuthInfo(profile, token, newRefreshToken));
     }
 }

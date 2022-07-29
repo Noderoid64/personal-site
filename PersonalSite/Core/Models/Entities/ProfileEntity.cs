@@ -11,6 +11,8 @@ public class ProfileEntity
     public string? LastName { get; set; }
     public string? Nickname { get; set; }
     public string? ProfilePicture { get; set; }
+    public string? RefreshToken { get; set; }
+    public DateTime? RefreshTokenExpireOn { get; set; }
     
     public virtual ProfileCredentialsEntity ProfileCredentials { get; set; }
     public virtual GoogleProfileEntity? GoogleProfileEntity { get; set; }

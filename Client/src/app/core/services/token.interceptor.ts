@@ -1,6 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import {Observable, take} from 'rxjs';
+import {
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpInterceptor,
+  HttpResponse,
+  HttpErrorResponse
+} from '@angular/common/http';
+import {catchError, Observable, switchMap, take, throwError} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {AuthService} from "./auth.service";
 
 @Injectable({providedIn: 'root'})
@@ -11,13 +19,24 @@ export class JwtInterceptor implements HttpInterceptor {
     // add auth header with jwt if account is logged in and request is to the api url
     let token;
     this.auth.user$.pipe(take(1)).subscribe(x => token = x?.token);
-    console.log('sdf');
     if (token) {
         request = request.clone({
           setHeaders: { Authorization: `Bearer ${token}` }
         });
     }
 
-    return next.handle(request);
+    return next.handle(request).pipe(catchError((err, caught) => {
+      if (err instanceof HttpErrorResponse) {
+        if (err.status === 401) {
+          return this.auth.refreshToken().pipe(switchMap(x => {
+            request = request.clone({
+              setHeaders: { Authorization: `Bearer ` + x }
+            })
+            return next.handle(request);
+          }));
+        }
+      }
+      return throwError('sdf');
+    }));
   }
 }

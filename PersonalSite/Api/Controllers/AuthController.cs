@@ -8,7 +8,7 @@ namespace PersonalSite.Api.Controllers;
 [Authorize]
 [ApiController]
 [Route("auth")]
-public class AuthController : ControllerBase
+public class AuthController : ApiController
 {
     private readonly AuthFacade _authFacade;
     private readonly IMapper _mapper;
@@ -56,5 +56,16 @@ public class AuthController : ControllerBase
         if (res.IsSuccess)
             return Ok(res.Value);
         return BadRequest(res.ErrorMessage);
+    }
+
+    [AllowAnonymous]
+    [HttpPost("refresh")]
+    public async Task<IActionResult> RefreshToken(string refreshToken)
+    {
+        var userId = GetUderIdForRefresh();
+        var result = await _authFacade.RefreshToken(refreshToken.Replace(' ', '+').Trim(), userId);
+        if (result.IsSuccess)
+            return Ok(result.Value);
+        return BadRequest(result.ErrorMessage);
     }
 }
