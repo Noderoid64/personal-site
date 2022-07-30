@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
+using PersonalSite.Infrastructure.Common.Models;
 
 namespace PersonalSite.Api.Controllers;
 
@@ -20,5 +21,12 @@ public class ApiController : ControllerBase
         var jwtSecurityToken = handler.ReadJwtToken(token);
         var userId = jwtSecurityToken.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Sid))?.Value;
         return int.Parse(userId);
+    }
+
+    protected IActionResult BuildResponse<T>(Result<T> result)
+    {
+        if (result.IsSuccess)
+            return Ok(result.Value);
+        return BadRequest(result.ErrorMessage);
     }
 }

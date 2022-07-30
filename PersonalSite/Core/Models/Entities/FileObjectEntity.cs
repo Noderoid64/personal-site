@@ -26,6 +26,8 @@ public class FileObjectEntity
     [ForeignKey("Parent")]
     public int? ParentId { get; set; }
     public virtual FileObjectEntity? Parent { get; set; }
+    
+    public virtual IList<CommentEntity> Comments { get; set; }
 
     #endregion
 }

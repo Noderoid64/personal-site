@@ -27,6 +27,14 @@ public class PostProvider : _BaseProvider, IPostProvider
             .ToListAsync();
     }
 
+    public async Task<FileObjectEntity> GetPostWithCommentsAsync(int postId)
+    {
+        return await _context.Posts
+            .Include(x => x.Comments)
+            .ThenInclude(x => x.Author)
+            .FirstAsync(x => x.Id == postId);
+    }
+
     public void SaveFileObject(FileObjectEntity fileObject)
     {
         _context.Posts.Add(fileObject);

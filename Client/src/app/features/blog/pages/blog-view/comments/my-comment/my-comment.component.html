@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="my-comment">
+    <img [src]="profilePicture">
+    <mat-form-field>
+      <mat-label>Comment</mat-label>
+      <textarea [formControl]="commentForm" matInput></textarea>
+    </mat-form-field>
+  </div>
+  <button class="send-button" mat-flat-button color="primary" (click)="sendComment.emit(commentForm.value)">Send</button>
+
+</div>

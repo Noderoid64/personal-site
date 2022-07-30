@@ -11,5 +11,6 @@ public static class EntityFrameworkExtensions
         container.Register<ApplicationContext, ApplicationContext>(Lifestyle.Scoped);
         container.Register<IPostProvider, PostProvider>();
         container.Register<IProfileProvider, ProfileProvider>();
+        container.Register<ICommentProvider, CommentProvider>();
     }
 }

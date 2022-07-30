@@ -19,6 +19,7 @@ public class PostProfile : Profile
             .ForMember(x => x.Profile, y => y.Ignore())
             .ForMember(x => x.ProfileId, y => y.Ignore())
             .ForMember(x => x.Parent, y => y.Ignore())
+            .ForMember(x => x.Comments, y => y.Ignore())
             .ReverseMap();
 
 

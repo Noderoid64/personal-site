@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {PostApiService} from "../../services/post-api.service";
-import {Observable} from "rxjs";
+import {Observable, share} from "rxjs";
 import {map} from "rxjs/operators";
+import {Post} from "../../models/post";
 
 @Component({
   selector: 'app-blog-view',
@@ -13,7 +14,9 @@ import {map} from "rxjs/operators";
 @UntilDestroy()
 export class BlogViewComponent implements OnInit {
 
-  public post?: Observable<string>
+  public post$?: Observable<Post>;
+  // public title$?: Observable<string | undefined>;
+  // public post
 
   constructor(private route: ActivatedRoute, private postApi: PostApiService) { }
 
@@ -22,8 +25,10 @@ export class BlogViewComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe(params => {
           const id = +(params.get('id') ?? -1);
-          if (id != -1) {
-            this.post = this.postApi.GetPostById(id).pipe(map(x => x.content))
+          if (id > 0) {
+            this.post$ = this.postApi.GetPostById(id).pipe(share());
+            // this.post$ = result.pipe(map(x => x.content));
+            // this.title$ = result.pipe(map(x => x.title));
           }
         }
       );

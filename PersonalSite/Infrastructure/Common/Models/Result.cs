@@ -1,4 +1,6 @@
-﻿namespace PersonalSite.Infrastructure.Common.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace PersonalSite.Infrastructure.Common.Models;
 
 public class Result<T>
 {

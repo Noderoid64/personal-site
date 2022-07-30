@@ -1,0 +1,9 @@
+<div class="blog-comments">
+  <div *ngIf="(comments$ | async)?.length == 0">
+    No comments yet.
+  </div>
+  <div *ngFor="let a of (comments$ | async)" class="comment-field">
+    <app-comment [Comment]="a"></app-comment>
+  </div>
+  <app-my-comment [profilePicture]="(user$ | async)?.profilePicture" (sendComment)="onCommentSend($event)"></app-my-comment>
+</div>

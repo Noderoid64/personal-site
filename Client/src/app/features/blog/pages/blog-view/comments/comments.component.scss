@@ -1,0 +1,17 @@
+.blog-comments {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .comment-field {
+    display: flex;
+    align-self: flex-start;
+    padding-bottom: 32px;
+  }
+
+  app-my-comment {
+    width: 100%;
+    max-width: 1024px;
+  }
+}

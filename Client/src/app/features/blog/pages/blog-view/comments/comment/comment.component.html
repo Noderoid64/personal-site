@@ -1,0 +1,14 @@
+<div class="comment">
+  <div class="comment-side">
+    <img *ngIf="Comment?.profilePicture" [src]="Comment?.profilePicture">
+    <mat-icon *ngIf="!Comment?.profilePicture">person</mat-icon>
+  </div>
+  <div class="comment-body">
+    <div class="comment-body-head">
+      <span>{{Comment?.displayName ?? 'Anonym'}}</span>
+      &nbsp;
+      <span class="comment-date">{{Comment?.createdAt | date: 'medium'}}</span>
+    </div>
+    {{Comment?.content}}
+  </div>
+</div>

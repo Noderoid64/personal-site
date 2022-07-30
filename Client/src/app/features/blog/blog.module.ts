@@ -14,6 +14,9 @@ import { BlogMyPostsPageComponent } from './pages/blog-my-posts-page/blog-my-pos
 import { AuthGuardService } from './services/auth-guard.service';
 import { BlogViewComponent } from './pages/blog-view/blog-view.component';
 import {MarkdownModule} from "../../shared/modules/markdown/markdown.module";
+import { CommentsComponent } from './pages/blog-view/comments/comments.component';
+import { MyCommentComponent } from './pages/blog-view/comments/my-comment/my-comment.component';
+import { CommentComponent } from './pages/blog-view/comments/comment/comment.component';
 
 const routes: Routes = [
   {
@@ -48,7 +51,10 @@ const routes: Routes = [
     ViewModeComponent,
     SettingsDialogComponent,
     BlogMyPostsPageComponent,
-    BlogViewComponent
+    BlogViewComponent,
+    CommentsComponent,
+    MyCommentComponent,
+    CommentComponent
   ],
   imports: [
     CommonModule,

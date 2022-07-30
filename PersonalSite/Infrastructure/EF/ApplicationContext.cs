@@ -10,6 +10,7 @@ public class ApplicationContext: DbContext
     public DbSet<ProfileEntity> Profiles { get; set; }
     public DbSet<ProfileCredentialsEntity> ProfileCredentials { get; set; }
     public DbSet<GoogleProfileEntity> GoogleProfiles { get; set; }
+    public DbSet<CommentEntity> Comments { get; set; }
     public DbSet<FileObjectEntity> Posts { get; set; }
 
     public ApplicationContext(IConfiguration config)

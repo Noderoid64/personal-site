@@ -1,4 +1,6 @@
 @use '../../../../node_modules/@angular/material/index' as mat;
+@use 'mat-card' as card;
+@use 'mat-expansion-panel' as expansion-panel;
 
 .light-theme {
   $Client-primary: mat.define-palette(mat.$indigo-palette, 600, 300, 900);
@@ -18,6 +20,9 @@
 
   @import "../theme-common";
   @import "../../code-highlight/prism.min";
+
+  @include card.theme($theme);
+  @include expansion-panel.theme($theme);
 
   @include mat.all-component-themes($theme);
 }

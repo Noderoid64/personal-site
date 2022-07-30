@@ -1,3 +1,17 @@
-<div class="blog-view">
-  <md-renderer [content]="post ?? ''"></md-renderer>
+<div class="wrapper">
+  <div class="blog-view">
+    <div>
+      <h1>{{(post$ | async)?.title}}</h1>
+      <md-renderer [content]="(post$ | async)?.content ?? ''"></md-renderer>
+    </div>
+    <mat-accordion>
+      <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+          Comments
+        </mat-expansion-panel-header>
+        <app-comments [postId]="(post$ | async)?.id"></app-comments>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+  </div>
 </div>

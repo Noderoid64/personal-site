@@ -11,12 +11,10 @@ namespace PersonalSite.Api.Controllers;
 public class AuthController : ApiController
 {
     private readonly AuthFacade _authFacade;
-    private readonly IMapper _mapper;
 
-    public AuthController(AuthFacade authFacade, IMapper mapper)
+    public AuthController(AuthFacade authFacade)
     {
         _authFacade = authFacade;
-        _mapper = mapper;
     }
 
     #if DEBUG
@@ -32,10 +30,8 @@ public class AuthController : ApiController
     [HttpPost("register")]
     public async Task<IActionResult> Register(string email, string password, string nickname)
     {
-        var profile = await _authFacade.RegisterAsync(email, password, nickname);
-        if (profile.IsSuccess)
-            return Ok();
-        return BadRequest(profile.ErrorMessage);
+        var result = await _authFacade.RegisterAsync(email, password, nickname);
+        return BuildResponse(result);
     }
 
     [AllowAnonymous]
@@ -52,10 +48,8 @@ public class AuthController : ApiController
     [HttpPost("google")]
     public async Task<IActionResult> AuthByGoogleCode(string code)
     {
-        var res = await _authFacade.AuthorizeByGoogleAsync(code);
-        if (res.IsSuccess)
-            return Ok(res.Value);
-        return BadRequest(res.ErrorMessage);
+        var result = await _authFacade.AuthorizeByGoogleAsync(code);
+        return BuildResponse(result);
     }
 
     [AllowAnonymous]
@@ -64,8 +58,6 @@ public class AuthController : ApiController
     {
         var userId = GetUderIdForRefresh();
         var result = await _authFacade.RefreshToken(refreshToken.Replace(' ', '+').Trim(), userId);
-        if (result.IsSuccess)
-            return Ok(result.Value);
-        return BadRequest(result.ErrorMessage);
+        return BuildResponse(result);
     }
 }

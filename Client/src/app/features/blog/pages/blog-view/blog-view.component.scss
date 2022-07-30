@@ -1,3 +1,26 @@
-.blog-view {
-  padding: 16px;
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  @media only screen and (max-width: 600px) {
+    display: block;
+    .blog-view {
+      max-width: none;
+    }
+  }
+
+  .blog-view {
+    display: flex;
+
+    max-width: 1024px;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: calc(100vh - 96px);
+    padding: 16px;
+    mat-divider {
+      margin: 16px 0;
+    }
+  }
 }
+
