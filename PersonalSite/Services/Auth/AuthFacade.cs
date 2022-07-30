@@ -127,8 +127,8 @@ public class AuthFacade : IAuthFacade
         if (!string.Equals(profile.RefreshToken, refreshToken))
             return Result<AuthInfo>.Fail("Refresh token does not match");
 
-        if (DateTime.Compare(profile.RefreshTokenExpireOn.Value, DateTime.Now) == 1)
-            return Result<AuthInfo>.Fail("Refresh token is expired");
+        // if (DateTime.Compare(profile.RefreshTokenExpireOn.Value, DateTime.Now) == -1)
+        //     return Result<AuthInfo>.Fail("Refresh token is expired");
         
         var token = _tokenGenerator.Generate(_authConfig.PrivateKey, profile.Id);
         var newRefreshToken = _tokenGenerator.GenerateRefreshToken();

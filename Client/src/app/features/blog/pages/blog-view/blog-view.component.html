@@ -1,5 +1,3 @@
 <div class="blog-view">
-  <markdown emoji  lineNumbers lineHighlight [data]="((post | async ) ?? '')">
-  </markdown>
-
+  <md-renderer [content]="post ?? ''"></md-renderer>
 </div>

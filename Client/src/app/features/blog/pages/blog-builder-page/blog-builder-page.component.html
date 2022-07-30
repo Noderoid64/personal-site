@@ -30,8 +30,7 @@
       </mat-form-field>
     </div>
     <div class="result-wrapper background" [ngClass]="!isViewMode ? 'hideable-600' : 'full-width'">
-      <markdown  id="md" emoji  lineNumbers lineHighlight [data]="((sourceControl.valueChanges | async ) ?? '')">
-      </markdown>
+      <md-renderer [content]="(sourceControl.valueChanges | async ) ?? ''"></md-renderer>
     </div>
   </div>
 
