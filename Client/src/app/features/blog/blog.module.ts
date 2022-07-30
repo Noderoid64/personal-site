@@ -13,6 +13,7 @@ import { ViewModeComponent } from './pages/blog-builder-page/view-mode/view-mode
 import { SettingsDialogComponent } from './components/settings-dialog/settings-dialog.component';
 import { BlogMyPostsPageComponent } from './pages/blog-my-posts-page/blog-my-posts-page.component';
 import { AuthGuardService } from './services/auth-guard.service';
+import { BlogViewComponent } from './pages/blog-view/blog-view.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,10 @@ const routes: Routes = [
     canActivate: [AuthGuardService]
   },
   {
+    path: "view/:id",
+    component: BlogViewComponent
+  },
+  {
     path: "**",
     component: BlogMainPageComponent
   }
@@ -42,7 +47,8 @@ const routes: Routes = [
     BlogMainPageComponent,
     ViewModeComponent,
     SettingsDialogComponent,
-    BlogMyPostsPageComponent
+    BlogMyPostsPageComponent,
+    BlogViewComponent
   ],
   imports: [
     CommonModule,
