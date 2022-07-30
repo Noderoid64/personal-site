@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, empty, Observable, tap} from "rxjs";
+import {BehaviorSubject, Observable, throwError} from "rxjs";
 
 import {User} from "../models/user";
 import {HttpClient} from "@angular/common/http";
@@ -20,16 +20,22 @@ export class AuthService {
   }
 
   public refreshToken(): Observable<any> {
-    const user = JSON.parse(localStorage.getItem(this.userKey) ?? '');
-    if (user.refreshToken) {
-      return this.http.post<User>(environment.serverUri + '/auth/refresh?refreshToken=' + user.refreshToken,null)
-        .pipe(map(x => {
-          localStorage.setItem(this.userKey, JSON.stringify(x));
-          this.user$.next(x);
-          return x.token;
-        }));
-    }
-    return empty();
+    const userJson = localStorage.getItem(this.userKey);
+
+    if (!userJson || userJson === '')
+      return throwError('Stored user json is not valid');
+
+    const user = JSON.parse(userJson);
+
+    if (!user.refreshToken)
+      return throwError('Stored user refresh token is not valid');
+
+    return this.http.post<User>(environment.serverUri + '/auth/refresh?refreshToken=' + user.refreshToken,null)
+      .pipe(map(x => {
+        localStorage.setItem(this.userKey, JSON.stringify(x));
+        this.user$.next(x);
+        return x.token;
+      }));
   }
 
   public signInByGoogle(): void {

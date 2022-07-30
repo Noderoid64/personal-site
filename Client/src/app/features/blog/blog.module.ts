@@ -12,17 +12,21 @@ import {PostApiService} from "./services/post-api.service";
 import { ViewModeComponent } from './pages/blog-builder-page/view-mode/view-mode.component';
 import { SettingsDialogComponent } from './components/settings-dialog/settings-dialog.component';
 import { BlogMyPostsPageComponent } from './pages/blog-my-posts-page/blog-my-posts-page.component';
+import { AuthGuardService } from './services/auth-guard.service';
 
 const routes: Routes = [
   {
     path: "builder/:id",
-    component: BlogBuilderPageComponent
+    component: BlogBuilderPageComponent,
+    canActivate: [AuthGuardService]
   }, {
     path: "builder",
-    component: BlogBuilderPageComponent
+    component: BlogBuilderPageComponent,
+    canActivate: [AuthGuardService]
   }, {
     path: "my",
-    component: BlogMyPostsPageComponent
+    component: BlogMyPostsPageComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: "**",
