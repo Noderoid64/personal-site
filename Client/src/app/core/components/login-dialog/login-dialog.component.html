@@ -1,0 +1,46 @@
+<div class="login-dialog">
+  <div class="mat-headline">
+    Login
+  </div>
+
+  <div class="third-party-login">
+    <button class="google-button" mat-stroked-button color="primary" (click)="onGoogle()">
+      <img src="assets/google.png" class="image">
+      <span>Continue via Google</span>
+    </button>
+  </div>
+
+  <div class="divider">
+    <mat-divider></mat-divider>
+    <span>Or</span>
+    <mat-divider></mat-divider>
+  </div>
+
+  <div class="email-login">
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput disabled>
+      <mat-icon matSuffix>mail</mat-icon>
+
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" disabled>
+      <mat-icon matSuffix>lock</mat-icon>
+    </mat-form-field>
+    <button class="login-button" disabled mat-raised-button color="primary">Login</button>
+  </div>
+
+  <div id="additional-options">
+
+    <div>
+      <span class="mat-subheading-1 regular-text disabled">Don't have an account?</span>
+      &nbsp;
+      <span class="mat-subheading-1 primary link-text disabled">Register now</span>
+    </div>
+    <span class="mat-subheading-1 primary link-text disabled">Forgot your password?</span>
+
+
+  </div>
+
+</div>

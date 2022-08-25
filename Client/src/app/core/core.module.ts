@@ -13,6 +13,7 @@ import { MainPageComponent } from './pages/main-page/main-page.component';
 import {CoreRoutingModule} from "./core-routing.module";
 import {JwtInterceptor} from "./services/token.interceptor";
 import { TestDevPageComponent } from './pages/test-dev-page/test-dev-page.component';
+import { LoginDialogComponent } from './components/login-dialog/login-dialog.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { TestDevPageComponent } from './pages/test-dev-page/test-dev-page.compon
     ProjectCardComponent,
     ProfileComponent,
     MainPageComponent,
-    TestDevPageComponent
+    TestDevPageComponent,
+    LoginDialogComponent
   ],
   imports: [
     BrowserModule,
