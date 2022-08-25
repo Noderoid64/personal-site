@@ -1,7 +1,7 @@
 .block-my-posts-main-page {
   width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   height: calc(100vh - 64px);
 
   .mat-drawer-container {
@@ -54,11 +54,19 @@
     }
 
   }
+
+  .bottom-menu {
+    width: 100%;
+    display: flex;
+    button {
+      margin: 16px 8px;
+    }
+  }
 }
 
 @media only screen and (max-width: 600px) {
   .block-my-posts-main-page {
-    flex-direction: column;
+    //flex-direction: column;
 
     mat-tree {
       width: 100%;

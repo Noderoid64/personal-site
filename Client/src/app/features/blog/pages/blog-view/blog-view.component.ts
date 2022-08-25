@@ -3,7 +3,6 @@ import {ActivatedRoute} from "@angular/router";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {PostApiService} from "../../services/post-api.service";
 import {Observable, share} from "rxjs";
-import {map} from "rxjs/operators";
 import {Post} from "../../models/post";
 
 @Component({
@@ -23,7 +22,7 @@ export class BlogViewComponent implements OnInit {
   public ngOnInit(): void {
     this.route.paramMap
       .pipe(untilDestroyed(this))
-      .subscribe(params => {
+      .subscribe((params: any) => {
           const id = +(params.get('id') ?? -1);
           if (id > 0) {
             this.post$ = this.postApi.GetPostById(id).pipe(share());

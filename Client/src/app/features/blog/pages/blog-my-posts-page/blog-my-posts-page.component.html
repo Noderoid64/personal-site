@@ -47,29 +47,32 @@
           </mat-tree-node>
 
         </mat-tree>
-        <button mat-flat-button color="primary" (click)="drawer.toggle()">Close</button>
       </div>
     </mat-drawer>
 
       <div class="content">
-        <div *ngIf="content == null">
-          <span class="mat-headline">No post selected</span>
-          <div>
-            <button mat-stroked-button color="primary" (click)="drawer.toggle()">Select</button>
-            <button mat-flat-button color="primary" routerLink="/blog/builder">Create</button>
-          </div>
-        </div>
+          <span class="mat-headline" *ngIf="content == null">No post selected</span>
         <div class="post-preview" *ngIf="content != null">
           <md-renderer [content]="content"></md-renderer>
-          <div>
-            <button mat-stroked-button color="primary" (click)="drawer.toggle()">Open menu</button>
-            <button mat-flat-button color="primary" [routerLink]="'/blog/builder/' +  selectedId">Edit</button>
-            <button mat-flat-button color="primary" [routerLink]="'/blog/view/' +  selectedId">View</button>
-          </div>
         </div>
 
       </div>
   </mat-drawer-container>
+  <div class="bottom-menu" *ngIf="content != null">
+    <button mat-icon-button (click)="drawer.toggle()">
+      <mat-icon *ngIf="!drawer.opened">keyboard_double_arrow_right</mat-icon>
+      <mat-icon *ngIf="drawer.opened">keyboard_double_arrow_left</mat-icon>
+    </button>
+    <button mat-flat-button color="primary" [routerLink]="'/blog/builder/' +  selectedId">Edit</button>
+    <button mat-flat-button color="primary" [routerLink]="'/blog/view/' +  selectedId">View</button>
+  </div>
+  <div class="bottom-menu" *ngIf="content == null">
+    <button mat-icon-button (click)="drawer.toggle()">
+      <mat-icon *ngIf="!drawer.opened">keyboard_double_arrow_right</mat-icon>
+      <mat-icon *ngIf="drawer.opened">keyboard_double_arrow_left</mat-icon>
+    </button>
+    <button mat-flat-button color="primary" routerLink="/blog/builder">Create</button>
+  </div>
 </div>
 
 

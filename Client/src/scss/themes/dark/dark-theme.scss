@@ -1,6 +1,7 @@
 @use '../../../../node_modules/@angular/material/index' as mat;
 @use 'mat-button' as button;
 @use 'mat-input' as input;
+@use 'bottom-menu' as bottom-menu;
 
 .dark-theme {
   $Client-primary: mat.define-palette(mat.$indigo-palette, 600, 300, 900);
@@ -29,6 +30,7 @@
   @include mat.all-component-themes($theme);
   @include button.theme($theme);
   @include input.theme($theme);
+  @include bottom-menu.theme($theme);
 }
 
 
