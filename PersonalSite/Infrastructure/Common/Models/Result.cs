@@ -2,6 +2,27 @@
 
 namespace PersonalSite.Infrastructure.Common.Models;
 
+public class Result
+{
+    private readonly bool _isSuccess;
+    public readonly string? ErrorMessage;
+    
+    public bool IsSuccess => _isSuccess;
+    private Result(bool isSuccess, string? errorMessage)
+    {
+        _isSuccess = isSuccess;
+        ErrorMessage = errorMessage;
+    }
+    public static Result Success()
+    {
+        return new Result(true, null);
+    }
+
+    public static Result Fail(string error)
+    {
+        return new Result(false, error);
+    }
+}
 public class Result<T>
 {
     private readonly bool _isSuccess;

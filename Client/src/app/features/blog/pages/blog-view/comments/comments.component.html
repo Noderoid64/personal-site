@@ -1,9 +1,12 @@
 <div class="blog-comments">
-  <div *ngIf="(comments$ | async)?.length == 0">
+  <div *ngIf="comments?.length == 0">
     No comments yet.
   </div>
-  <div *ngFor="let a of (comments$ | async)" class="comment-field">
-    <app-comment [Comment]="a"></app-comment>
+  <div *ngFor="let comment of comments; trackBy:identify" class="comment-field">
+    <app-comment [Comment]="comment"></app-comment>
+    <div class="tools-section">
+      <mat-icon matTooltip="Remove" (click)="onCommentRemove(comment.id)">delete</mat-icon>
+    </div>
   </div>
   <app-my-comment [profilePicture]="(user$ | async)?.profilePicture" (sendComment)="onCommentSend($event)"></app-my-comment>
 </div>

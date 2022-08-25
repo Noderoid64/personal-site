@@ -29,4 +29,11 @@ public class ApiController : ControllerBase
             return Ok(result.Value);
         return BadRequest(result.ErrorMessage);
     }
+
+    protected IActionResult BuildResponse(Result result)
+    {
+        if (result.IsSuccess)
+            return Ok();
+        return BadRequest(result.ErrorMessage);
+    }
 }

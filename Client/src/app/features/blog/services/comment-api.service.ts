@@ -17,4 +17,8 @@ export class CommentApiService {
   public PostComment(postId: number, content: string): Observable<any> {
     return this.http.put(environment.serverUri + '/comments/posts/' + postId, {content}).pipe(share());
   }
+
+  public DeleteComment(commentId: number): Observable<any> {
+    return this.http.delete(environment.serverUri + '/comments/' + commentId).pipe(share());
+  }
 }

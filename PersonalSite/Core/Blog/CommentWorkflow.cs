@@ -43,4 +43,18 @@ public class CommentWorkflow
         var post = await _postProvider.GetPostWithCommentsAsync(postId);
         return Result<IEnumerable<CommentEntity>>.Success(post.Comments);
     }
+
+    public async Task<Result> DeleteComment(int authorId, int commentId)
+    {
+        var comment = await _commentProvider.GetCommentAsync(commentId);
+        
+        if (comment.AuthorId != authorId)
+            return Result.Fail("Access denied");
+        
+        _commentProvider.DeleteComment(comment);
+        await _commentProvider.SaveAsync();
+        
+        return Result.Success();
+
+    }
 }

@@ -6,8 +6,18 @@
 
   .comment-field {
     display: flex;
+    width: 100%;
+    justify-content: space-between;
     align-self: flex-start;
     padding-bottom: 32px;
+    .tools-section {
+      visibility: hidden;
+      opacity: 0.7;
+    }
+  }
+
+  .comment-field:hover .tools-section {
+    visibility: visible;
   }
 
   app-my-comment {

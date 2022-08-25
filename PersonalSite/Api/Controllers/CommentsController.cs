@@ -36,4 +36,13 @@ public class CommentsController : ApiController
             return Ok(_mapper.Map<CommentDto[]>(result.Value));
         return BadRequest(result.ErrorMessage);
     }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteComment(int id)
+    {
+        var userId = GetUserId();
+        var result = await _commentWorkflow.DeleteComment(userId, id);
+
+        return BuildResponse(result);
+    }
 }

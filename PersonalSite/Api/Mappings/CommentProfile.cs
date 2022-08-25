@@ -9,6 +9,7 @@ public class CommentProfile : Profile
     public CommentProfile()
     {
         CreateMap<CommentEntity, CommentDto>()
+            .ForMember(x => x.Id, y => y.MapFrom(z => z.Id))
             .ForMember(x => x.Content, y => y.MapFrom(z => z.Content))
             .ForMember(x => x.CreatedAt, y => y.MapFrom(z => z.CreatedAt))
             .ForMember(x => x.DisplayName, y => y.MapFrom(z => z.Author.Nickname))
