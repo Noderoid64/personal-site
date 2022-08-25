@@ -33,4 +33,7 @@ export class BlogViewComponent implements OnInit {
       );
   }
 
+  public onBack(): void {
+    history.back()
+  }
 }

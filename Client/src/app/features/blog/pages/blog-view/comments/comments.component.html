@@ -1,6 +1,6 @@
 <div class="blog-comments">
-  <div *ngIf="comments?.length == 0">
-    No comments yet.
+  <div class="mat-headline" *ngIf="comments?.length == 0">
+    No comments yet. Be the first one
   </div>
   <div *ngFor="let comment of comments; trackBy:identify" class="comment-field">
     <app-comment [Comment]="comment"></app-comment>

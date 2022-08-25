@@ -2,18 +2,20 @@
 
   <mat-card class="builder-toolbar">
       <div class="right-side">
-        <app-code-selector (selected)="onCodeSelection($event)" matTooltip="Insert code block"></app-code-selector>
-        <app-horizontal-line (clicked)="onHorizontalLine()" matTooltip="Insert horizontal line"></app-horizontal-line>
+        <app-code-selector class="item" (selected)="onCodeSelection($event)" matTooltip="Code block"></app-code-selector>
+        <app-horizontal-line class="item" (clicked)="onHorizontalLine()" matTooltip="Horizontal line"></app-horizontal-line>
       </div>
       <div class="left-side">
         <app-view-mode (toggle)="onViewModeChange($event)"></app-view-mode>
         <button mat-button [cdkCopyToClipboard]="sourceControl.value ?? ''">
           <mat-icon>content_copy</mat-icon>
-          <span class="hideable-600">Copy</span>
         </button>
         <button mat-button (click)="onSettings()" matTooltip="Open settings">
           <mat-icon>settings</mat-icon>
-          <span class="hideable-600">Settings</span>
+        </button>
+        <button mat-stroked-button color="primary" matTooltip="My posts" [routerLink]="'/blog/my'">
+          <mat-icon>home</mat-icon>
+          <span class="hideable-600">My posts</span>
         </button>
         <button mat-flat-button color="primary" (click)="onSave()" matTooltip="Save changes">
           <mat-icon>save</mat-icon>

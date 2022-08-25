@@ -1,7 +1,10 @@
 <div class="wrapper">
   <div class="blog-view">
     <div>
-      <h1>{{(post$ | async)?.title}}</h1>
+      <div class="header">
+        <mat-icon class="m-icon" matTooltip="Back" (click)="onBack()">chevron_left</mat-icon>
+        <span class="mat-display-1"> {{(post$ | async)?.title}} </span>
+      </div>
       <md-renderer [content]="(post$ | async)?.content ?? ''"></md-renderer>
     </div>
     <mat-accordion>

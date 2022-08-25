@@ -50,13 +50,16 @@
       </div>
     </mat-drawer>
 
-      <div class="content">
-          <span class="mat-headline" *ngIf="content == null">No post selected</span>
+    <div class="content">
+      <div class="view">
+        <span class="mat-headline" *ngIf="content == null">No post selected</span>
         <div class="post-preview" *ngIf="content != null">
           <md-renderer [content]="content"></md-renderer>
         </div>
 
       </div>
+    </div>
+
   </mat-drawer-container>
   <div class="bottom-menu" *ngIf="content != null">
     <button mat-icon-button (click)="drawer.toggle()">

@@ -19,6 +19,16 @@
     justify-content: space-between;
     min-height: calc(100vh - 96px);
     padding: 16px;
+
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 22px;
+      span {
+        margin-bottom: 0px;
+      }
+    }
+
     mat-divider {
       margin: 16px 0;
     }
