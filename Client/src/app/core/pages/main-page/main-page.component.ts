@@ -13,8 +13,10 @@ export class MainPageComponent {
   public theme$: Observable<string>;
 
   constructor(private themeService: ThemeService, authService: AuthService) {
+    this.themeService.tryGetThemeFromSettings();
     this.theme$ = themeService.theme$;
     authService.tryContinueGoogleSignIn();
+    console.log("Console");
   }
 
   public onThemeChangeClick(): void {

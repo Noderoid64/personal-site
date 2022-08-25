@@ -6,9 +6,18 @@ import {OverlayContainer} from "@angular/cdk/overlay";
 export class ThemeService {
 
   theme$ = new BehaviorSubject<'dark' | 'light'>('dark');
+  private readonly ThemeKey = "Theme";
 
   public constructor(private overlay: OverlayContainer) {
     this.overlay.getContainerElement().classList.add('dark-theme');
+  }
+
+  public tryGetThemeFromSettings() {
+    var storedTheme = localStorage.getItem(this.ThemeKey);
+    if (!!storedTheme && storedTheme !== this.theme$.value) {
+      this.changeTheme();
+    }
+
   }
 
   public changeTheme(): void {
@@ -21,6 +30,7 @@ export class ThemeService {
       this.overlay.getContainerElement().classList.remove('dark-theme');
       this.overlay.getContainerElement().classList.add('light-theme');
     }
+    localStorage.setItem(this.ThemeKey, this.theme$.value);
 
 
   }
