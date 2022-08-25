@@ -1,7 +1,7 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {AuthService} from "../../../../../core/services/auth.service";
 import {User} from "../../../../../core/models/user";
-import {EMPTY, Observable} from "rxjs";
+import {EMPTY, Observable, tap} from "rxjs";
 import {CommentApiService} from "../../../services/comment-api.service";
 import {Comment} from "../../../models/comment";
 
@@ -15,9 +15,11 @@ export class CommentsComponent {
   @Input() public set postId (value: number | undefined) {
     if (value && value != 0) {
       this._postId = value;
-      this.comments$ = this.commentApi.GetComments(value);
+      this.comments$ = this.commentApi.GetComments(value)
+        .pipe(tap(x => this.CommentsLoaded.emit(x.length)));
     }
   }
+  @Output() public CommentsLoaded = new EventEmitter<number>();
 
   public _postId?: number;
   public user$?: Observable<User | null>;

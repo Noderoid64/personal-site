@@ -14,8 +14,8 @@ import {Post} from "../../models/post";
 export class BlogViewComponent implements OnInit {
 
   public post$?: Observable<Post>;
-  // public title$?: Observable<string | undefined>;
-  // public post
+  public isOpened = false;
+  public comments?: number;
 
   constructor(private route: ActivatedRoute, private postApi: PostApiService) { }
 

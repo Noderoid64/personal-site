@@ -18,7 +18,7 @@ public class TokenGenerator
             {
                 new Claim(ClaimTypes.Sid, id.ToString())                  
             }),
-            Expires = DateTime.UtcNow.AddSeconds(5),
+            Expires = DateTime.UtcNow.AddHours(6),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey),SecurityAlgorithms.HmacSha256Signature)
         };
         var token = tokenHandler.CreateToken(tokenDescriptor);

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormControl} from "@angular/forms";
 
 @Component({
@@ -6,7 +6,7 @@ import {FormControl} from "@angular/forms";
   templateUrl: './my-comment.component.html',
   styleUrls: ['./my-comment.component.scss']
 })
-export class MyCommentComponent implements OnInit {
+export class MyCommentComponent {
 
   @Input() public profilePicture?: string;
 
@@ -16,7 +16,9 @@ export class MyCommentComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  public onSend() {
+    this.sendComment.emit(this.commentForm.value)
+    this.commentForm.reset();
   }
 
 }

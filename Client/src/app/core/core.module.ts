@@ -12,6 +12,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import {CoreRoutingModule} from "./core-routing.module";
 import {JwtInterceptor} from "./services/token.interceptor";
+import { TestDevPageComponent } from './pages/test-dev-page/test-dev-page.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import {JwtInterceptor} from "./services/token.interceptor";
     ProjectsComponent,
     ProjectCardComponent,
     ProfileComponent,
-    MainPageComponent
+    MainPageComponent,
+    TestDevPageComponent
   ],
   imports: [
     BrowserModule,

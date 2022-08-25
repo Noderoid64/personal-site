@@ -1,14 +1,15 @@
 <div class="comment">
-  <div class="comment-side">
-    <img *ngIf="Comment?.profilePicture" [src]="Comment?.profilePicture">
-    <mat-icon *ngIf="!Comment?.profilePicture">person</mat-icon>
+  <div class="comment-head">
+    <div class="comment-head-left">
+      <img *ngIf="Comment?.profilePicture" [src]="Comment?.profilePicture">
+      <mat-icon *ngIf="!Comment?.profilePicture">person</mat-icon>
+    </div>
+    <div class="comment-head-right">
+      <span class="mat-body-2">{{Comment?.displayName ?? 'Anonym'}}</span>
+      <span class="mat-caption">{{Comment?.createdAt | date: 'medium'}}</span>
+    </div>
   </div>
   <div class="comment-body">
-    <div class="comment-body-head">
-      <span>{{Comment?.displayName ?? 'Anonym'}}</span>
-      &nbsp;
-      <span class="comment-date">{{Comment?.createdAt | date: 'medium'}}</span>
-    </div>
     {{Comment?.content}}
   </div>
 </div>

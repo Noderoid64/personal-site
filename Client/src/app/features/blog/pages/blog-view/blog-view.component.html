@@ -5,11 +5,18 @@
       <md-renderer [content]="(post$ | async)?.content ?? ''"></md-renderer>
     </div>
     <mat-accordion>
-      <mat-expansion-panel hideToggle>
+      <mat-expansion-panel hideToggle (opened)="isOpened = true" (closed)="isOpened = false">
         <mat-expansion-panel-header>
-          Comments
+          <mat-icon>
+            chat
+          </mat-icon>
+          &nbsp;&nbsp;
+          Comments {{comments != undefined ? ('(' + comments + ')') : ''}}
+          &nbsp;&nbsp;
+          <mat-icon *ngIf="!isOpened">arrow_drop_down</mat-icon>
+          <mat-icon *ngIf="isOpened">arrow_drop_up</mat-icon>
         </mat-expansion-panel-header>
-        <app-comments [postId]="(post$ | async)?.id"></app-comments>
+        <app-comments (CommentsLoaded)="comments = $event" [postId]="(post$ | async)?.id"></app-comments>
       </mat-expansion-panel>
     </mat-accordion>
 
