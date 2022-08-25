@@ -40,6 +40,7 @@ export class CommentsComponent {
     if (this._postId)
       this.commentApi.DeleteComment(commentId).subscribe(() => {
         this.comments = this.comments.filter(x => x.id !== commentId);
+        this.CommentsLoaded.emit(this.comments.length);
       });
   }
 
