@@ -2,6 +2,7 @@
 using PersonalSite.Infrastructure.EF;
 using PersonalSite.Infrastructure.SimpleInject.CoreRegistrations;
 using PersonalSite.Services.Auth;
+using PersonalSite.Services.FullTextSearch;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
 
@@ -12,11 +13,13 @@ public static class SimpleInjectExtension
     public static void AddSimpleInjectorDi(this WebApplicationBuilder wab, Container container)  
     {        
         container.Options.DefaultLifestyle = Lifestyle.Scoped;  
-        container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();  
+        container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+        container.Options.ConstructorResolutionBehavior = new ConstructorResolutionBehavior();
 
         // Here should be registrations
         container.RegisterAutomapper();
         container.RegisterAuth(wab.Configuration);
+        container.RegisterTextSearchIndex();
         container.RegisterDbContext();
         container.RegisterCoreBlog();
   

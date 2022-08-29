@@ -17,6 +17,7 @@ import {MarkdownModule} from "../../shared/modules/markdown/markdown.module";
 import { CommentsComponent } from './pages/blog-view/comments/comments.component';
 import { MyCommentComponent } from './pages/blog-view/comments/my-comment/my-comment.component';
 import { CommentComponent } from './pages/blog-view/comments/comment/comment.component';
+import { BlogSearchPageComponent } from './pages/blog-search-page/blog-search-page.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,9 @@ const routes: Routes = [
     path: "builder",
     component: BlogBuilderPageComponent,
     canActivate: [AuthGuardService]
+  }, {
+    path: "search",
+    component: BlogSearchPageComponent,
   }, {
     path: "my",
     component: BlogMyPostsPageComponent,
@@ -54,7 +58,8 @@ const routes: Routes = [
     BlogViewComponent,
     CommentsComponent,
     MyCommentComponent,
-    CommentComponent
+    CommentComponent,
+    BlogSearchPageComponent
   ],
   imports: [
     CommonModule,

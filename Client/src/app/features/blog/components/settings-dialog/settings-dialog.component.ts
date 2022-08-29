@@ -13,7 +13,7 @@ export class SettingsDialogComponent {
   public AccessTypes = AccessType;
 
   public fg = new FormGroup({
-    title: new FormControl(this.data.title, [Validators.minLength(8), Validators.maxLength(30), Validators.required]),
+    title: new FormControl(this.data.title, [Validators.minLength(4), Validators.maxLength(30), Validators.required]),
     accessType: new FormControl(this.data.accessType, [Validators.required])
   });
 

@@ -1,6 +1,7 @@
 using PersonalSite.Infrastructure.SimpleInject;
 using PersonalSite.Infrastructure.Swagger;
 using PersonalSite.Services.Auth;
+using PersonalSite.Services.FullTextSearch;
 using SimpleInjector;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwagger();
 builder.Services.AddAuth(builder.Configuration);
+builder.Services.AddHostedService<SearchIndexHostedService>();
 builder.AddSimpleInjectorDi(container);
 
 var app = builder.Build();

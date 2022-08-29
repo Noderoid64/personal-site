@@ -25,4 +25,10 @@
       <Folder Include="Core\Models" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="FullIndexSearch">
+        <HintPath>..\..\FullIndexSearch\FullIndexSearch\bin\Release\net6.0\FullIndexSearch.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>

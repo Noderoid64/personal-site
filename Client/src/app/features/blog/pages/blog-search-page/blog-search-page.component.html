@@ -1,0 +1,20 @@
+<div class="blog-search">
+  <div class="content" [ngClass]="{'content-searched' : (posts$ | async)?.length > 0}">
+    <div class="search-box">
+      <mat-form-field appearance="outline">
+        <mat-label>Look up</mat-label>
+        <input matInput placeholder="Dot net config" [formControl]="searchControl">
+        <mat-icon matSuffix *ngIf="!!searchControl.value" (click)="searchControl.reset()">close</mat-icon>
+      </mat-form-field>
+      <button mat-flat-button color="primary" (click)="onSearch()">Search</button>
+    </div>
+
+    <div class="item" *ngFor="let a of posts$ | async" [routerLink]="'/blog/view/' + a.id">
+      <div class="item-header">
+        <span class="primary mat-title">{{a.title}}</span>
+        <span class="mat-caption">12:23 10.10.2022</span>
+      </div>
+      <span class="mat-body-1">{{a.content}}</span>
+    </div>
+  </div>
+</div>

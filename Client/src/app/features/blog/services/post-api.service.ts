@@ -29,4 +29,8 @@ export class PostApiService {
   public DeleteFile(fileId: number): Observable<any> {
     return this.http.delete(environment.serverUri + '/blog?fileId=' + fileId).pipe(share());
   }
+
+  public FindPosts(searchString: string): Observable<any> {
+    return this.http.get(environment.serverUri + '/blog/post/find?searchString=' + searchString).pipe(share());
+  }
 }

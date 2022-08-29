@@ -7,7 +7,7 @@
       </div>
       <md-renderer [content]="(post$ | async)?.content ?? ''"></md-renderer>
     </div>
-    <mat-accordion>
+    <mat-accordion class="bottom-menu">
       <mat-expansion-panel hideToggle (opened)="isOpened = true" (closed)="isOpened = false">
         <mat-expansion-panel-header>
           <mat-icon>

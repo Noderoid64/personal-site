@@ -2,7 +2,7 @@
   <span class="mat-display-1 main-title">Share knowledge quickly, with Nod Blog</span>
   <span class="mat-subheading-2 main-subtitle">Easily create and share posts, and build a community in real-time.</span>
   <div class="button-section">
-    <button mat-stroked-button color="primary" disabled>Check public posts</button>
+    <button mat-stroked-button color="primary" routerLink="/blog/search">Check public posts</button>
     <button mat-flat-button color="primary" routerLink="/blog/my" [disabled]="!(isUserLogged$ | async)">Open my blog</button>
   </div>
 </div>

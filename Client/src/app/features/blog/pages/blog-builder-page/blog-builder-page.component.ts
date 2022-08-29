@@ -5,6 +5,8 @@ import {ActivatedRoute} from "@angular/router";
 import {PostApiService} from "../../services/post-api.service";
 import {MatDialog} from "@angular/material/dialog";
 import {SettingsDialogComponent} from "../../components/settings-dialog/settings-dialog.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {AccessType} from "../../models/access-type.enum";
 
 @Component({
   selector: 'app-blog-builder-page',
@@ -23,6 +25,7 @@ export class BlogBuilderPageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private postApi: PostApiService,
+    private snackBar: MatSnackBar,
     public dialog: MatDialog) {
 
   }
@@ -47,7 +50,10 @@ export class BlogBuilderPageComponent implements OnInit {
               this.sourceControl.setValue(this.post.content);
               setTimeout(() => this.updateSourceHeight(this.sourceTextArea?.nativeElement), 10);
             });
+          } else {
+            this.openDialog();
           }
+
         }
       );
   }
@@ -94,19 +100,7 @@ export class BlogBuilderPageComponent implements OnInit {
   }
 
   public onSettings(): void {
-    const dialogRef = this.dialog.open(SettingsDialogComponent, {
-      data: {
-        title: this.post?.title,
-        accessType: this.post?.accessType
-      },
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (this.post && result) {
-        this.post.accessType = result.accessType;
-        this.post.title = result.title;
-      }
-    });
+    this.openDialog();
   }
 
   public onSave(): void {
@@ -114,7 +108,15 @@ export class BlogBuilderPageComponent implements OnInit {
       this.onSettings();
     } else {
       this.post.content = this.sourceControl.value ?? '';
-      this.postApi.SavePost(this.post).subscribe(console.log);
+      this.postApi.SavePost(this.post).subscribe(() => {
+        this.snackBar.open('Saved', '', {
+          duration: 3000
+        });
+      }, error => {
+        this.snackBar.open('Error', '', {
+          duration: 3000
+        });
+      });
     }
   }
 
@@ -124,5 +126,21 @@ export class BlogBuilderPageComponent implements OnInit {
       target.style.height = "";
       target.style.height = (target?.scrollHeight + 20) + "px"
     }
+  }
+
+  private openDialog() {
+    const dialogRef = this.dialog.open(SettingsDialogComponent, {
+      data: {
+        title: this.post?.title,
+        accessType: this.post?.accessType ?? AccessType.public
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (this.post && result) {
+        this.post.accessType = result.accessType;
+        this.post.title = result.title;
+      }
+    });
   }
 }

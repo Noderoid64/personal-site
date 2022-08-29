@@ -16,6 +16,7 @@ import {MatTreeModule} from "@angular/material/tree";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatExpansionModule} from "@angular/material/expansion";
+import {MatRippleModule} from '@angular/material/core';
 
 @NgModule({
   exports: [
@@ -36,6 +37,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
     MatSidenavModule,
     MatSnackBarModule,
     MatExpansionModule,
+    MatRippleModule,
   ],
 })
 export class MaterialModule {

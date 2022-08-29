@@ -12,6 +12,7 @@ public class ApplicationContext: DbContext
     public DbSet<GoogleProfileEntity> GoogleProfiles { get; set; }
     public DbSet<CommentEntity> Comments { get; set; }
     public DbSet<FileObjectEntity> Posts { get; set; }
+    public DbSet<FileObjectChangeEntity> PostChanges { get; set; }
 
     public ApplicationContext(IConfiguration config)
     {

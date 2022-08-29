@@ -2,7 +2,7 @@
   <h2 mat-dialog-title>Post settings</h2>
   <mat-dialog-content class="mat-typography" [formGroup]="fg">
     <mat-form-field appearance="fill" >
-      <mat-label>Title</mat-label>
+      <mat-label>Post title</mat-label>
       <input matInput placeholder="How to beat procrastination" formControlName="title">
       <mat-hint align="end">{{fg.controls['title'].value?.length ?? 0}} / 30</mat-hint>
       <mat-error *ngIf="fg.controls['title'].hasError('required') && !fg.controls['title'].hasError('minlength') && !fg.controls['title'].hasError('maxlength')">

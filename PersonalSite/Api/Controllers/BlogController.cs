@@ -64,6 +64,14 @@ public class BlogController : ApiController
         await _postWorkflow.DeleteFileAsync(profileId, fileId);
         return Ok();
     }
+
+    [AllowAnonymous]
+    [HttpGet("post/find")]
+    public async Task<IActionResult> FindPost(string searchString)
+    {
+        var result = await _postWorkflow.FindPosts(searchString);
+        return Ok(result);
+    }
     
     
 }
