@@ -22,8 +22,6 @@ export class ProfileComponent {
         this.auth.signInByGoogle();
       }
     });
-
-    // this.auth.signInByGoogle();
   }
 
   public onLogOut(): void {

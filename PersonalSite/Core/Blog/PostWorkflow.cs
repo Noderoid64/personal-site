@@ -5,6 +5,7 @@ using PersonalSite.Core.Models.Entities;
 using PersonalSite.Core.Models.Entities.Enums;
 using PersonalSite.Core.Ports;
 using PersonalSite.Infrastructure.Common.Models;
+using PersonalSite.Infrastructure.EF.Providers;
 using PersonalSite.Services.FullTextSearch;
 
 namespace PersonalSite.Core.Blog;
@@ -32,14 +33,9 @@ public class PostWorkflow
         _postChangesGateway = postChangesGateway;
     }
 
-    public async Task<Result<FileObjectEntity>> GetPostAsync(int userId, int postId)
+    public async Task<Result<FileObjectEntity>> GetPostAsync(int postId)
     {
-        var user = await _profileProvider.GetProfileWithPostsAsync(userId);
-        ArgumentNullException.ThrowIfNull(user);
-        
-        var post = user.Posts.FirstOrDefault(x => x.Id == postId);
-        if (post == null)
-            return Result<FileObjectEntity>.Fail($"This user does not have post with id: {postId}");
+        var post = await _postProvider.GetPostWithCommentsAsync(postId);
         return Result<FileObjectEntity>.Success(post);
     }
     

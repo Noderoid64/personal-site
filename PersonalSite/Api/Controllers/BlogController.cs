@@ -33,8 +33,8 @@ public class BlogController : ApiController
     [HttpGet("{id}")]
     public async Task<IActionResult> GetPost(int id)
     {
-        var userId = GetUserId();
-        var post = await _postWorkflow.GetPostAsync(userId, id);
+        // var userId = GetUserId();
+        var post = await _postWorkflow.GetPostAsync(id);
         if(post.IsSuccess)
             return Ok(_mapper.Map<PostDto>(post.Value));
         return BadRequest(post.ErrorMessage);
