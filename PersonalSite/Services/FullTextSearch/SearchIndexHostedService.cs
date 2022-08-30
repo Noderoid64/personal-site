@@ -1,5 +1,6 @@
 ﻿
 using System.Diagnostics;
+using Serilog;
 
 namespace PersonalSite.Services.FullTextSearch;
 
@@ -19,7 +20,7 @@ public class SearchIndexHostedService : IHostedService, IDisposable
         _timer = new Timer(DoWork, null, TimeSpan.Zero,
             TimeSpan.FromMinutes(5));
         
-        Console.WriteLine("SearchIndex job started...");
+        Log.Information("SearchIndexService scheduled");
         
         return Task.CompletedTask;
     }
@@ -27,19 +28,28 @@ public class SearchIndexHostedService : IHostedService, IDisposable
     public Task StopAsync(CancellationToken cancellationToken)
     {
         _timer?.Change(Timeout.Infinite, 0);
+        
+        Log.Information("SearchIndexService stopped");
 
         return Task.CompletedTask;
     }
 
     private async void DoWork(object state)
     {
-        Console.WriteLine("DoWork started...");
-        var sw = new Stopwatch();
-        sw.Start();
-        var service = TextSearchIndex.GetInstance();
-        await service.FillNewIndexAsync(_configuration);
-        sw.Stop();
-        Console.WriteLine("DoWork end in " + sw.ElapsedMilliseconds + " ms.");
+        Log.Information("SearchIndex updating started...");
+        try
+        {
+            var sw = new Stopwatch();
+            sw.Start();
+            var service = TextSearchIndex.GetInstance();
+            await service.FillNewIndexAsync(_configuration);
+            sw.Stop();
+            Log.Information("SearchIndex updating finished in {sw:000}ms", sw.ElapsedMilliseconds);
+        }
+        catch (Exception e)
+        {
+            Log.Error("SearchIndex failed {Error}", e);
+        }
     }
 
     public void Dispose()

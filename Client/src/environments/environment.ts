@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  serverUri: "https://localhost:7019",
+  serverUri: "https://localhost:7019/api",
   googleAuthRedirectUrl: "http://localhost:4200/auth"
 };
 

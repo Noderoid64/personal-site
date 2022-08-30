@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 using PersonalSite.Core.Models.Entities;
-using PersonalSite.Core.Models.Entities.Enums;
 using PersonalSite.Infrastructure.Common.Models;
 using PersonalSite.Infrastructure.EF;
 using PersonalSite.Services.Auth.Models;
 using PersonalSite.Services.Auth.Services;
+using Serilog;
+using Serilog.Events;
 
 namespace PersonalSite.Services.Auth;
 
@@ -15,6 +17,8 @@ public class AuthFacade : IAuthFacade
     private readonly TokenGenerator _tokenGenerator;
     private readonly GoogleApi _googleApi;
     private readonly ProfileUpdater _profileUpdater;
+    
+    readonly bool _isDebug = Log.IsEnabled(LogEventLevel.Debug);
 
     public AuthFacade(
         AuthConfig authConfig,
@@ -81,40 +85,58 @@ public class AuthFacade : IAuthFacade
 
     public async Task<Result<AuthInfo>> AuthorizeByGoogleAsync(string authCode)
     {
-        ArgumentNullException.ThrowIfNull(authCode);
-
-        var tokenResult = await _googleApi.AuthAsync(authCode);
-        if (!tokenResult.IsSuccess)
-            return Result<AuthInfo>.FromFail(tokenResult);
-
-        var gProfileResult = await _googleApi.GetProfile(tokenResult.Value);
-        if (!gProfileResult.IsSuccess)
-            return Result<AuthInfo>.FromFail(tokenResult);
-        
-        GoogleProfile gProfile = gProfileResult.Value;
-        var profile = await _context.Profiles
-            .Include(x => x.GoogleProfileEntity)
-            .FirstOrDefaultAsync(x =>
-                x.GoogleProfileEntity != null && 
-                x.GoogleProfileEntity.SourceId.Equals(gProfile.SourceId));
-        
-        if (profile == null)
+        try
         {
-            profile = _profileUpdater.CreateNewOneFromGoogle(gProfile);
-            _context.Profiles.Add(profile);
-        }
-        else
-        {
-            profile = _profileUpdater.UpdateProfile(profile, gProfile);
-            _context.Profiles.Update(profile);
-        }
-        
-        profile.RefreshToken = _tokenGenerator.GenerateRefreshToken();
-        profile.RefreshTokenExpireOn = DateTime.Now.AddHours(_authConfig.RefreshTokenHoursValidity);
+            ArgumentNullException.ThrowIfNull(authCode);
+            var sw = new Stopwatch();
+            sw.Start();
+            
+            var tokenResult = await _googleApi.AuthAsync(authCode);
+            if (_isDebug) Log.Debug("GoogleApi.AuthAsync returned {@tokenResult}", tokenResult);
+            if (!tokenResult.IsSuccess)
+                return Result<AuthInfo>.FromFail(tokenResult);
 
-        await _context.SaveChangesAsync();
-        var token = _tokenGenerator.Generate(_authConfig.PrivateKey, profile.Id);
-        return Result<AuthInfo>.Success(new AuthInfo(profile, token, profile.RefreshToken));
+            var gProfileResult = await _googleApi.GetProfile(tokenResult.Value);
+            if (_isDebug) Log.Debug("GoogleApi.GetProfile returned {@gProfileResult}", gProfileResult);
+            if (!gProfileResult.IsSuccess)
+                return Result<AuthInfo>.FromFail(tokenResult);
+        
+            GoogleProfile gProfile = gProfileResult.Value;
+            var profile = await _context.Profiles
+                .Include(x => x.GoogleProfileEntity)
+                .FirstOrDefaultAsync(x =>
+                    x.GoogleProfileEntity != null && 
+                    x.GoogleProfileEntity.SourceId.Equals(gProfile.SourceId));
+        
+            if (profile == null)
+            {
+                profile = _profileUpdater.CreateNewOneFromGoogle(gProfile);
+                _context.Profiles.Add(profile);
+            }
+            else
+            {
+                profile = _profileUpdater.UpdateProfile(profile, gProfile);
+                _context.Profiles.Update(profile);
+            }
+        
+            profile.RefreshToken = _tokenGenerator.GenerateRefreshToken();
+            profile.RefreshTokenExpireOn = DateTime.Now.AddHours(_authConfig.RefreshTokenHoursValidity);
+
+            await _context.SaveChangesAsync();
+            var token = _tokenGenerator.Generate(_authConfig.PrivateKey, profile.Id);
+            
+            var result = Result<AuthInfo>.Success(new AuthInfo(profile, token, profile.RefreshToken));
+            
+            sw.Stop();
+            Log.Information("Authorize by google finished in {Elapsed:000}", sw.ElapsedMilliseconds);
+
+            return result;
+        }
+        catch (Exception e)
+        {
+            Log.Information("Authorize by google failed: {Error}", e);
+            throw;
+        }
     }
 
     public async Task<Result<AuthInfo>> RefreshToken(string refreshToken, int profileId)
@@ -126,9 +148,6 @@ public class AuthFacade : IAuthFacade
         
         if (!string.Equals(profile.RefreshToken, refreshToken))
             return Result<AuthInfo>.Fail("Refresh token does not match");
-
-        // if (DateTime.Compare(profile.RefreshTokenExpireOn.Value, DateTime.Now) == -1)
-        //     return Result<AuthInfo>.Fail("Refresh token is expired");
         
         var token = _tokenGenerator.Generate(_authConfig.PrivateKey, profile.Id);
         var newRefreshToken = _tokenGenerator.GenerateRefreshToken();

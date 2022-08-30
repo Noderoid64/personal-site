@@ -1,7 +1,7 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PersonalSite.Services.Auth;
+using Serilog;
 
 namespace PersonalSite.Api.Controllers;
 
@@ -48,7 +48,9 @@ public class AuthController : ApiController
     [HttpPost("google")]
     public async Task<IActionResult> AuthByGoogleCode(string code)
     {
+        Log.Information("We are here");
         var result = await _authFacade.AuthorizeByGoogleAsync(code);
+        Log.Information("We are here 2");
         return BuildResponse(result);
     }
 
