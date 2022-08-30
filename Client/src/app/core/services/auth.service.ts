@@ -39,7 +39,7 @@ export class AuthService {
   }
 
   public signInByGoogle(): void {
-    window.location.assign("https://accounts.google.com/o/oauth2/v2/auth?scope=profile&access_type=offline&response_type=code&redirect_uri=http://localhost:4200/auth&client_id=714351833041-ohb8v036d4efaoo6g0bs38us42ff4v8r.apps.googleusercontent.com");
+    window.location.assign("https://accounts.google.com/o/oauth2/v2/auth?scope=profile&access_type=offline&response_type=code&redirect_uri=" + environment.googleAuthRedirectUrl + "&client_id=714351833041-ohb8v036d4efaoo6g0bs38us42ff4v8r.apps.googleusercontent.com");
   }
 
   public tryContinueGoogleSignIn(): void {

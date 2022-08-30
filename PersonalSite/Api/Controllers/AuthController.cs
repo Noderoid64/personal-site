@@ -7,7 +7,7 @@ namespace PersonalSite.Api.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("auth")]
+[Route("api/auth")]
 public class AuthController : ApiController
 {
     private readonly AuthFacade _authFacade;

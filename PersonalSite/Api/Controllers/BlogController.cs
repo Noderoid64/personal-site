@@ -10,7 +10,7 @@ namespace PersonalSite.Api.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("blog")]
+[Route("api/blog")]
 public class BlogController : ApiController
 {
     private readonly PostWorkflow _postWorkflow;

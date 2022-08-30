@@ -1,3 +1,4 @@
+using PersonalSite.Infrastructure.EF;
 using PersonalSite.Infrastructure.SimpleInject;
 using PersonalSite.Infrastructure.Swagger;
 using PersonalSite.Services.Auth;
@@ -13,6 +14,15 @@ builder.Services.AddSwagger();
 builder.Services.AddAuth(builder.Configuration);
 builder.Services.AddHostedService<SearchIndexHostedService>();
 builder.AddSimpleInjectorDi(container);
+
+Console.WriteLine("Trying to create a db ");
+using (var context = new ApplicationContext(builder.Configuration))
+{
+    if (context.Database.EnsureCreated())
+    {
+        Console.WriteLine("Creating db...");
+    }
+}
 
 var app = builder.Build();
 app.Services.AddSimpleInjectorDi(container);

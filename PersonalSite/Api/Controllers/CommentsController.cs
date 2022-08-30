@@ -8,7 +8,7 @@ namespace PersonalSite.Api.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("comments")]
+[Route("api/comments")]
 public class CommentsController : ApiController
 {
     private readonly CommentWorkflow _commentWorkflow;
