@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable, share} from "rxjs";
 import {environment} from "../../../../environments/environment";
 import {Post} from "../models/post";
+import {PostRecent} from "../models/post-recent";
 
 @Injectable()
 export class PostApiService {
@@ -32,5 +33,9 @@ export class PostApiService {
 
   public FindPosts(searchString: string): Observable<any> {
     return this.http.get(environment.serverUri + '/blog/post/find?searchString=' + searchString).pipe(share());
+  }
+
+  public GetRecentPosts(): Observable<PostRecent[]> {
+    return this.http.get<PostRecent[]>(environment.serverUri + '/blog/recent').pipe(share());
   }
 }

@@ -1,0 +1,27 @@
+.mat-elevation-z8 {
+  width: 100%;
+  box-shadow: none;
+
+  .cdk-column-authorPict {
+    width: 22px;
+    .profile-image {
+      width: 32px;
+      height: 32px;
+      border-radius: 2px;
+      margin-left: 4px;
+    }
+  }
+
+  td {
+    padding: 4px;
+  }
+
+  .row {
+    cursor: pointer;
+  }
+}
+
+.mat-title {
+  margin-bottom: 8px;
+
+}

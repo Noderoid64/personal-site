@@ -16,5 +16,7 @@
       </div>
       <span class="mat-body-1">{{a.content}}</span>
     </div>
+
+    <app-recent-table *ngIf="!(posts$ | async) || (posts$ | async)?.length === 0"></app-recent-table>
   </div>
 </div>

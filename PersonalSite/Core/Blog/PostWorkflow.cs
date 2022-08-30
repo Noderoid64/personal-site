@@ -5,7 +5,6 @@ using PersonalSite.Core.Models.Entities;
 using PersonalSite.Core.Models.Entities.Enums;
 using PersonalSite.Core.Ports;
 using PersonalSite.Infrastructure.Common.Models;
-using PersonalSite.Infrastructure.EF.Providers;
 using PersonalSite.Services.FullTextSearch;
 
 namespace PersonalSite.Core.Blog;
@@ -39,7 +38,7 @@ public class PostWorkflow
         return Result<FileObjectEntity>.Success(post);
     }
     
-    public async Task<FileObject> GetUserPostsAsync(int userId)
+    public async Task<FileObjectTree> GetUserPostTreeAsync(int userId)
     {
         var entities = await _postProvider.GetPostsByProfileIdAsync(userId);
         return _fileObjectBuilder.Build(entities);
@@ -58,7 +57,7 @@ public class PostWorkflow
         if (fileObject.IsNew())
         {
             int parentId = await FindParent(fileObject, profileId);
-            var postToSave = CreateNewPost(fileObject, profile.Id, parentId);
+            var postToSave = _fileObjectBuilder.CreatePost(fileObject, profile.Id, parentId);
             _postProvider.SaveFileObject(postToSave);
             await _postProvider.SaveAsync();
             await _postChangesGateway.PostAdded(postToSave.Id);
@@ -76,7 +75,7 @@ public class PostWorkflow
     public async Task<Result<int>> SaveFolderAsync(int profileId, string title, int parentId)
     {
         var profile = await _profileProvider.GetProfileAsync(profileId);
-        var folder = CreateNewFolder(profile.Id, title, parentId);
+        var folder = _fileObjectBuilder.CreateFolder(profile.Id, title, parentId);
         _postProvider.SaveFileObject(folder);
         await _postProvider.SaveAsync();
         return Result<int>.Success(folder.Id);
@@ -97,37 +96,17 @@ public class PostWorkflow
         }
     }
 
-    private FileObjectEntity CreateNewFolder(int profileId, string title, int parentId)
+    public async Task<IEnumerable<FileObjectEntity>> GetRecentPosts()
     {
-        return new FileObjectEntity()
-        {
-            Title = title,
-            ParentId = parentId,
-            ProfileId = profileId,
-            CreatedAt = DateTime.UtcNow,
-            EditedAt = DateTime.UtcNow,
-            FileObjectType = FileObjectType.Folder
-        };
+        return await _postProvider.GetRecentPosts();
     }
+    
 
+    // TODO: Move to separate file
     private async Task<int> FindParent(FileObjectEntity fileObject, int profileId)
     {
         return fileObject.HasNoParent()
             ? (await _postProvider.GetFileObjectRootAsync(profileId)).Id
             : fileObject.ParentId.Value;
-    }
-
-    private FileObjectEntity CreateNewPost(FileObjectEntity fileObject, int profileId, int parentId)
-    {
-        return new FileObjectEntity()
-        {
-            Content = fileObject.Content,
-            ProfileId = profileId,
-            CreatedAt = DateTime.UtcNow,
-            EditedAt = DateTime.UtcNow,
-            Title = fileObject.Title,
-            PostAccessType = fileObject.PostAccessType,
-            ParentId = parentId
-        };
     }
 }

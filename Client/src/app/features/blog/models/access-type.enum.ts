@@ -1,5 +1,5 @@
 export enum AccessType {
-  public,
   private,
+  public,
   link
 }

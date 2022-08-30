@@ -18,6 +18,7 @@ import { CommentsComponent } from './pages/blog-view/comments/comments.component
 import { MyCommentComponent } from './pages/blog-view/comments/my-comment/my-comment.component';
 import { CommentComponent } from './pages/blog-view/comments/comment/comment.component';
 import { BlogSearchPageComponent } from './pages/blog-search-page/blog-search-page.component';
+import { RecentTableComponent } from './pages/blog-search-page/recent-table/recent-table.component';
 
 const routes: Routes = [
   {
@@ -59,7 +60,8 @@ const routes: Routes = [
     CommentsComponent,
     MyCommentComponent,
     CommentComponent,
-    BlogSearchPageComponent
+    BlogSearchPageComponent,
+    RecentTableComponent
   ],
   imports: [
     CommonModule,

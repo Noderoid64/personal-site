@@ -7,7 +7,7 @@
     width: 800px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     padding: 16px;
     min-height: calc(100vh - 96px);
@@ -52,6 +52,10 @@
         }
       }
 
+    }
+
+    app-recent-table {
+      width: 100%;
     }
   }
 }

@@ -23,10 +23,10 @@ public class BlogController : ApiController
     }
 
     [HttpGet("all")]
-    public async Task<FileObject> GetMyPosts()
+    public async Task<FileObjectTree> GetMyPosts()
     {
         var userId = GetUserId();
-        var a = await _postWorkflow.GetUserPostsAsync(userId);
+        var a = await _postWorkflow.GetUserPostTreeAsync(userId);
         return a;
     }
 
@@ -65,12 +65,19 @@ public class BlogController : ApiController
         return Ok();
     }
 
-    [AllowAnonymous]
     [HttpGet("post/find")]
     public async Task<IActionResult> FindPost(string searchString)
     {
         var result = await _postWorkflow.FindPosts(searchString);
         return Ok(result);
+    }
+
+    [AllowAnonymous]
+    [HttpGet("recent")]
+    public async Task<IActionResult> GetRecentPosts()
+    {
+        var posts = await _postWorkflow.GetRecentPosts();
+        return Ok(_mapper.Map<IEnumerable<PostRecentDto>>(posts));
     }
     
     

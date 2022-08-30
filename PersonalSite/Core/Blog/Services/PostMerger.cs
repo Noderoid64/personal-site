@@ -4,7 +4,7 @@ namespace PersonalSite.Core.Blog.Services;
 
 public class PostMerger
 {
-    public FileObjectEntity Merge(FileObjectEntity oldOne, FileObjectEntity newOne)
+    public void Merge(FileObjectEntity oldOne, FileObjectEntity newOne)
     {
         ArgumentNullException.ThrowIfNull(oldOne);
         ArgumentNullException.ThrowIfNull(newOne);
@@ -13,7 +13,5 @@ public class PostMerger
         oldOne.EditedAt = DateTime.Now;
         oldOne.Title = newOne.Title;
         oldOne.PostAccessType = newOne.PostAccessType;
-        
-        return oldOne;
     }
 }

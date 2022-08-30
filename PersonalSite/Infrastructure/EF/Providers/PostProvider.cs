@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PersonalSite.Core.Models.Entities;
+using PersonalSite.Core.Models.Entities.Enums;
 using PersonalSite.Core.Ports;
 
 namespace PersonalSite.Infrastructure.EF.Providers;
@@ -24,6 +25,16 @@ public class PostProvider : _BaseProvider, IPostProvider
     {
         return await _context.Posts
             .Where(x => x.ProfileId.Equals(profileId))
+            .ToListAsync();
+    }
+
+    public async Task<List<FileObjectEntity>> GetRecentPosts()
+    {
+        return await _context.Posts
+            .OrderBy(x => x.CreatedAt)
+            .Include(x => x.Profile)
+            .Where(x => FileObjectType.Post == x.FileObjectType && PostAccessType.Public == x.PostAccessType)
+            .Take(10)
             .ToListAsync();
     }
 
