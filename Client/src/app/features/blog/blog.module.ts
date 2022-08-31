@@ -11,7 +11,7 @@ import {PostApiService} from "./services/post-api.service";
 import { ViewModeComponent } from './pages/blog-builder-page/view-mode/view-mode.component';
 import { SettingsDialogComponent } from './components/settings-dialog/settings-dialog.component';
 import { BlogMyPostsPageComponent } from './pages/blog-my-posts-page/blog-my-posts-page.component';
-import { AuthGuardService } from './services/auth-guard.service';
+import { AuthGuardService } from '../../core/services/guards/auth-guard.service';
 import { BlogViewComponent } from './pages/blog-view/blog-view.component';
 import {MarkdownModule} from "../../shared/modules/markdown/markdown.module";
 import { CommentsComponent } from './pages/blog-view/comments/comments.component';
@@ -19,33 +19,7 @@ import { MyCommentComponent } from './pages/blog-view/comments/my-comment/my-com
 import { CommentComponent } from './pages/blog-view/comments/comment/comment.component';
 import { BlogSearchPageComponent } from './pages/blog-search-page/blog-search-page.component';
 import { RecentTableComponent } from './pages/blog-search-page/recent-table/recent-table.component';
-
-const routes: Routes = [
-  {
-    path: "builder/:id",
-    component: BlogBuilderPageComponent,
-    canActivate: [AuthGuardService]
-  }, {
-    path: "builder",
-    component: BlogBuilderPageComponent,
-    canActivate: [AuthGuardService]
-  }, {
-    path: "search",
-    component: BlogSearchPageComponent,
-  }, {
-    path: "my",
-    component: BlogMyPostsPageComponent,
-    canActivate: [AuthGuardService]
-  },
-  {
-    path: "view/:id",
-    component: BlogViewComponent
-  },
-  {
-    path: "**",
-    component: BlogMainPageComponent
-  }
-]
+import {BlogRoutingModule} from "./blog-routing.module";
 
 @NgModule({
   declarations: [
@@ -66,7 +40,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     MarkdownModule,
-    RouterModule.forChild(routes),
+    BlogRoutingModule,
     MaterialModule,
     ReactiveFormsModule
   ],

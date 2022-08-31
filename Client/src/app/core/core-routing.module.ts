@@ -7,6 +7,9 @@ const routes: Routes = [
   {
     path: 'blog',
     loadChildren: () => import('../features/blog/blog.module').then(m => m.BlogModule)
+  }, {
+    path: 'projects',
+    loadChildren: () => import('../features/projects/projects.module').then(m => m.ProjectsModule)
   },
   {
     path: 'test',

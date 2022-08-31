@@ -1,0 +1,15 @@
+.personal-site-project {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  &-content {
+    width: -webkit-fill-available;
+    max-width: 1024px;
+    padding-top: 16px;
+
+    .back-button {
+      cursor: pointer;
+      margin-bottom: 16px;
+    }
+  }
+}
