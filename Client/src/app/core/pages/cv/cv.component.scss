@@ -1,0 +1,51 @@
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+#bg {
+  overflow-y: scroll;
+}
+
+.map {
+  width: 100%;
+  max-width: 1230px;
+  height: 100vh;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  .info {
+    background: #2d2d2d;
+    opacity: 0.9;
+    width: 300px;
+    height: 200px;
+    z-index: 100;
+    border-radius: 6px;
+    padding: 16px;
+    margin-right: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .map {
+    max-width: none;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .map {
+    justify-content: center;
+    align-items: flex-end;
+    .info {
+      margin-bottom: 16px;
+    }
+  }
+}
+
+

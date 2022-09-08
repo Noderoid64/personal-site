@@ -1,7 +1,8 @@
 <div [ngClass]="(theme$ | async) === 'dark'? 'dark-theme' : 'light-theme'" class="t main-container">
-  <mat-toolbar color="primary">
+  <mat-toolbar color="primary" *ngIf="router.url !== '/cv'">
     <mat-toolbar-row class="menu">
       <span class="mat-display-1 logo" routerLink="">Noderoid.site</span>
+      {{router.url}}
       <div class="right-side">
         <app-profile></app-profile>
         <button mat-icon-button class="material-symbols-outlined" (click)="onThemeChangeClick() ">

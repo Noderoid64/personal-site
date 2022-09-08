@@ -14,6 +14,7 @@ import {CoreRoutingModule} from "./core-routing.module";
 import {JwtInterceptor} from "./services/token.interceptor";
 import { TestDevPageComponent } from './pages/test-dev-page/test-dev-page.component';
 import { LoginDialogComponent } from './components/login-dialog/login-dialog.component';
+import {CvComponent} from "./pages/cv/cv.component";
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { LoginDialogComponent } from './components/login-dialog/login-dialog.com
     ProfileComponent,
     MainPageComponent,
     TestDevPageComponent,
-    LoginDialogComponent
+    LoginDialogComponent,
+    CvComponent
   ],
   imports: [
     BrowserModule,
