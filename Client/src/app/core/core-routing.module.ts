@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {DeveloperPageComponent} from "./pages/developer-page/developer-page.component";
 import {TestDevPageComponent} from "./pages/test-dev-page/test-dev-page.component";
+import {CvComponent} from "./pages/cv/cv.component";
 
 const routes: Routes = [
   {
@@ -10,6 +11,9 @@ const routes: Routes = [
   }, {
     path: 'projects',
     loadChildren: () => import('../features/projects/projects.module').then(m => m.ProjectsModule)
+  }, {
+    path: 'cv',
+    component: CvComponent
   },
   {
     path: 'test',
